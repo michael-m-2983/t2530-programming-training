@@ -30,9 +30,9 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         this.player = new Player(WINDOW_WIDTH / 2 - Player.WIDTH / 2, WINDOW_HEIGHT - Player.HEIGHT * 5);
 
         this.ball = new Ball(WINDOW_WIDTH / 2, WINDOW_HEIGHT - Player.HEIGHT * 8);
-        this.ball.velY = -1;
+        this.ball.velY = -0.2;
 
-        this.board = new Board(20, 10);
+        this.board = new Board(10, 10);
 
         this.timer = new Timer(1, this);
         this.timer.start();
@@ -59,7 +59,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         player.render(g);
 
         // Draw ball
-        ball.render(g);
+        ball.render(g, player);
 
         // Draw Score
         g.setColor(Color.WHITE);
