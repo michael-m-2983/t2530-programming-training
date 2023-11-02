@@ -5,13 +5,26 @@ import java.awt.Graphics;
 
 public class Ball {
     public double posX, posY;
+
     public double velX, velY;
+
+    private double finalV;
+    
 
     public static final int RADIUS = 10;
 
+
+
+    public void finalVe(){
+         velX = finalV;
+         velY = finalV;
+        
+
+    }
     public Ball(double posX, double posY) {
         this.posX = posX;
         this.posY = posY;
+        
     }
 
     public void render(Graphics g, Player player) {
@@ -30,6 +43,7 @@ public class Ball {
     private void checkCollisions(Player player) {
         // Top, left and right walls
         if (posX <= 0 || posX >= Game.WINDOW_WIDTH) {
+            
             velX = -velX;
         }
         if (posY <= 0) {
