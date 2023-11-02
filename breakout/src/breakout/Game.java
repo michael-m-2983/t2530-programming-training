@@ -30,11 +30,11 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         this.player = new Player(WINDOW_WIDTH / 2 - Player.WIDTH / 2, WINDOW_HEIGHT - Player.HEIGHT * 5);
 
         this.ball = new Ball(WINDOW_WIDTH / 2, WINDOW_HEIGHT - Player.HEIGHT * 8);
-        this.ball.velY = -0.2;
+        this.ball.velY = -1.2;
 
         this.board = new Board(10, 10);
 
-        this.timer = new Timer(1, this);
+        this.timer = new Timer(0, this);
         this.timer.start();
 
         setFocusable(true);
@@ -80,6 +80,12 @@ public class Game extends JPanel implements ActionListener, KeyListener {
                 break;
             case 39: // Right
                 player.moveRight();
+                break;
+            case 38: //down
+                player.moveUp();
+                break;
+            case 40: //up
+                player.moveDown();
                 break;
             default: // Everything else
                 break; 

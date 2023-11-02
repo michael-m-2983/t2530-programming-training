@@ -11,7 +11,7 @@ public class Player {
     public double posX;
 
     // The y position of the player
-    public final double posY;
+    public double posY;
 
     public Player(double posX, double posY) {
         this.posX = posX;
@@ -25,6 +25,15 @@ public class Player {
 
     public void moveRight() {
         this.posX += 100;
+        checkBounds();
+    }
+
+    public void moveDown(){
+        this.posY += 4;
+        checkBounds();
+    }
+    public void moveUp(){
+        this.posY -= 4;
         checkBounds();
     }
 

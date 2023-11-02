@@ -47,6 +47,8 @@ public class Board {
 
         for(int x1 = 0; x1 < rows; x1++) {
             for(int y1 = 0; y1 < cols; y1++) {
+                System.out.println(rows);
+                System.out.println(cols);
                 if(x + halfRadius > (x1 * width) && x - halfRadius < (x1 + 1) * width && y + halfRadius > y1 * height && y - halfRadius < (y1 + 1) * height) {
                     bricks[x1][y1] = null;
                 }
