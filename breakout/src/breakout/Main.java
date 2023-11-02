@@ -1,7 +1,9 @@
 package breakout;
 
 import javax.swing.JFrame;
-
+// important notes
+// 0, 0 is top left corner
+// y goes UP as objects go DOWN
 public class Main {
     public static void main(String[] args) {
         JFrame window = new JFrame();
