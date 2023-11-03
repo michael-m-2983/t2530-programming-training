@@ -14,7 +14,8 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 
     public static final int WINDOW_WIDTH = 750, WINDOW_HEIGHT = 500;
 
-    private int score = 0;
+    public int score = 0;
+    public int test = 0;
 
     private final Player player;
 
@@ -30,9 +31,9 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         this.player = new Player(WINDOW_WIDTH / 2 - Player.WIDTH / 2, WINDOW_HEIGHT - Player.HEIGHT * 5);
 
         this.ball = new Ball(WINDOW_WIDTH / 2, WINDOW_HEIGHT - Player.HEIGHT * 8);
-        this.ball.posY = 15;
-        this.ball.posX = 75;
-        this.ball.velY = -0.1;
+        this.ball.posX = 400;
+        this.ball.posY = 400;
+        this.ball.velY = 2;
         this.ball.velX = 0;
 
         this.board = new Board(10, 10);
@@ -49,7 +50,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     public void paint(Graphics g) {
 
         // Check collision between ball and bricks
-        board.checkCollisions((int) ball.posX, (int) ball.posY, Ball.RADIUS, ball);
+        board.checkCollisions((int) ball.posX, (int) ball.posY, Ball.RADIUS, ball, this);
 
         // Draw background
         g.setColor(Color.BLACK);
@@ -71,6 +72,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         g.drawString("BY: " + ball.posY, 12, 42);
         g.drawString("Width of brick: " + board.getWidth(), 12, 54);
         g.drawString("Height of brick: " + board.getHeight(), 12, 66);
+        g.drawString("test: " + this.test, 12, 78);
         g.dispose();
     }
 

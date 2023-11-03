@@ -38,7 +38,7 @@ public class Ball {
 
         // Player
         if (posX > player.posX && posX < player.posX + Player.WIDTH && posY >= player.posY - 10) {
-            velY = -velY;
+            velY *= -1 - Math.random() / 10;
             velX += (Math.random() * 2 - 1);
         }
 
