@@ -16,21 +16,25 @@ public class Ball {
 
 
     public void finalVe(){
-         velX = finalV;
+         //velX = finalV;
          velY = finalV;
-        
+         //this.posX += this.velX;
+         this.posY += this.velY;
+
 
     }
-    public Ball(double posX, double posY) {
+    public Ball(double posX, double posY, double fV) {
         this.posX = posX;
         this.posY = posY;
-        
+        this.finalV = fV;
     }
 
     public void render(Graphics g, Player player) {
         // Update
-        this.posX += this.velX;
-        this.posY += this.velY;
+        System.out.printf("fV=%.2f velocity=[%.2f,%.2f] position=[%.2f,%.2f]\n", finalV, velX, velY, posX, posY);
+        finalVe();
+        
+        
 
         // Collisions
         checkCollisions(player);
@@ -38,6 +42,9 @@ public class Ball {
         // Render
         g.setColor(Color.WHITE);
         g.fillOval((int) posX, (int) posY, RADIUS, RADIUS);
+
+        g.setColor(Color.RED);
+        g.drawOval(0, 0, 40, 40);
     }
 
     private void checkCollisions(Player player) {

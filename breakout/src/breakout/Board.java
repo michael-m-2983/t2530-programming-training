@@ -3,7 +3,11 @@ package breakout;
 import java.awt.Color;
 import java.awt.Graphics;
 
+import javax.management.ValueExp;
+
 public class Board {
+    
+
     public final Brick[][] bricks;
     private final int rows, cols;
 
@@ -39,7 +43,7 @@ public class Board {
         g.drawRect((WIDTH / cols) * x, (HEIGHT / rows) * y, WIDTH / cols, HEIGHT / rows);
     }
 
-    public void checkCollisions(int x, int y, int radius) {
+    public void checkCollisions(Ball ball, int radius) {
         final int width = (WIDTH / cols);
         final int height = (HEIGHT / rows);
 
@@ -47,8 +51,18 @@ public class Board {
 
         for(int x1 = 0; x1 < rows; x1++) {
             for(int y1 = 0; y1 < cols; y1++) {
-                if(x + halfRadius > (x1 * width) && x - halfRadius < (x1 + 1) * width && y + halfRadius > y1 * height && y - halfRadius < (y1 + 1) * height) {
+                if(ball.posX + halfRadius > (x1 * width) && ball.posX - halfRadius < (x1 + 1) * width && ball.posY+ halfRadius > y1 * height && ball.posY - halfRadius < (y1 + 1) * height) {
                     bricks[x1][y1] = null;
+                    //ball.velX = -ball.velX;
+                    //ball.velY = -ball.velY;
+                    break;
+                    
+
+
+                
+        
+                    
+
                 }
             }
         }
