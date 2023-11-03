@@ -19,26 +19,26 @@ public class Player {
     }
 
     public void moveLeft() {
-        this.posX -= 100;
+        this.posX -= 45;
         checkBounds();
     }
 
     public void moveRight() {
-        this.posX += 100;
+        this.posX += 45;
         checkBounds();
     }
 
     public void moveDown(){
-        this.posY += 7;
+        this.posY += 25;
         checkBounds();
     }
     public void moveUp(){
-        this.posY -= 7;
+        this.posY -= 25;
         checkBounds();
     }
 
     private void checkBounds() {
-        this.posX = Math.min(this.posX, Game.WINDOW_WIDTH);
+        this.posX = Math.min(this.posX, Game.WINDOW_WIDTH-120);
         this.posX = Math.max(this.posX, 0);
     }
 

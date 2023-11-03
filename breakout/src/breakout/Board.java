@@ -60,13 +60,14 @@ public class Board {
                 }
                 if(ball.posX + halfRadius > (x1 * width) && ball.posX - halfRadius < (x1 + 1) * width && ball.posY + halfRadius > y1 * height && ball.posY - halfRadius < (y1 + 1) * height) {
                     bricks[x1][y1] = null;
+
+                    Game.getInstance().score +=1;
                     //Reverse velo when impacting brick
                     isCollision = true;
-                    double randint = (Math.random() - 0.5d);
-                    ball.velX = -randint;
-                    ball.velY = -ball.velY;
+                    ball.velX *= -(1 + (Math.random())/4);
+                    ball.velY *= -(1 + Math.random()/4);
                     //ball.velX = -ball.velX;
-                    System.out.println(ball.velY);
+    
                         //break LABEL;
                         break;
                 }

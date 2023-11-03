@@ -12,34 +12,28 @@ import java.awt.event.KeyListener;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Game extends JPanel implements ActionListener, KeyListener {
-
+    private static Game INSTANCE;
     public static final int WINDOW_WIDTH = 750, WINDOW_HEIGHT = 500;
 
-    private int score = 0;
+    public int score = 0;
 
-    private final Player player;
+    public final Player player;
 
-    private final Ball ball;
+    public final Ball ball;
 
-    private final Board board;
+    public final Board board;
 
     private final Timer timer;
 
     // TODO: bricks
 
     public Game() {
+        INSTANCE = this;
         this.player = new Player(WINDOW_WIDTH / 2 - Player.WIDTH / 2, WINDOW_HEIGHT - Player.HEIGHT * 5);
 
         this.ball = new Ball(WINDOW_WIDTH / 2, WINDOW_HEIGHT - Player.HEIGHT * 8);
-<<<<<<< HEAD
         this.ball.velX = ThreadLocalRandom.current().nextFloat(-0.5f,0.5f);
         this.ball.velY = -1.4;
-=======
-        this.ball.posY = 15;
-        this.ball.posX = 75;
-        this.ball.velY = -0.1;
-        this.ball.velX = 0;
->>>>>>> ad2f7363c170424b7572eed421acef9ce1cb0fe3
 
         this.board = new Board(10, 10);
 
@@ -55,12 +49,8 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     public void paint(Graphics g) {
 
         // Check collision between ball and bricks
-<<<<<<< HEAD
 
         board.checkCollisions(ball);
-=======
-        board.checkCollisions((int) ball.posX, (int) ball.posY, Ball.RADIUS, ball);
->>>>>>> ad2f7363c170424b7572eed421acef9ce1cb0fe3
 
         // Draw background
         g.setColor(Color.BLACK);
@@ -80,8 +70,6 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         g.drawString("Score: " + score, 12, 16);
         g.drawString("BX: " + ball.posX, 12, 30);
         g.drawString("BY: " + ball.posY, 12, 42);
-        g.drawString("Width of brick: " + board.getWidth(), 12, 54);
-        g.drawString("Height of brick: " + board.getHeight(), 12, 66);
         g.dispose();
     }
 
@@ -119,5 +107,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 
         repaint();
     }
-    
+    public static Game getInstance() {
+        return INSTANCE;
+    }
 }
