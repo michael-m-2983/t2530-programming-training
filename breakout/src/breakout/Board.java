@@ -14,6 +14,8 @@ public class Board {
         this.rows = rows;
         this.cols = cols;
 
+        
+
         for(int x = 0; x < rows; x++) {
             if(x == 0 || x == rows - 1) continue;
             for(int y = 0; y < cols; y++) {
@@ -48,6 +50,8 @@ public class Board {
         //LABEL:
         boolean isCollision = false;
 
+        
+        // radius = 10
         for(int x1 = 0; x1 < rows; x1++) {
             if(isCollision)break;
             for(int y1 = 0; y1 < cols; y1++) {
@@ -68,5 +72,12 @@ public class Board {
                 }
             }
         }
+    }
+
+    public int getWidth() {
+        return WIDTH / cols;
+    }
+    public int getHeight() {
+        return HEIGHT / rows;
     }
 }
