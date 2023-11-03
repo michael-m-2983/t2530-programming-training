@@ -3,7 +3,7 @@ Repository dedicated to Team 2530 members programming training.
 
 ### How to use
 
-1. Sign up for [GitHub](https://github.com/signup)
+1) Sign up for [GitHub](https://github.com/signup)
 
 Go through the signup process. 
 

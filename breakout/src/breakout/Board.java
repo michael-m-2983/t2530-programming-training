@@ -14,10 +14,13 @@ public class Board {
         this.rows = rows;
         this.cols = cols;
 
+        
+
         for(int x = 0; x < rows; x++) {
             if(x == 0 || x == rows - 1) continue;
             for(int y = 0; y < cols; y++) {
                 bricks[x][y] = new Brick();
+
             }
         }
     }
@@ -39,18 +42,43 @@ public class Board {
         g.drawRect((WIDTH / cols) * x, (HEIGHT / rows) * y, WIDTH / cols, HEIGHT / rows);
     }
 
-    public void checkCollisions(int x, int y, int radius) {
+    public void checkCollisions(Ball ball) {
         final int width = (WIDTH / cols);
         final int height = (HEIGHT / rows);
 
-        int halfRadius = radius / 2;
+        int halfRadius = Ball.RADIUS / 2;
+        //LABEL:
+        boolean isCollision = false;
 
+        
+        // radius = 10
         for(int x1 = 0; x1 < rows; x1++) {
+            if(isCollision)break;
             for(int y1 = 0; y1 < cols; y1++) {
-                if(x + halfRadius > (x1 * width) && x - halfRadius < (x1 + 1) * width && y + halfRadius > y1 * height && y - halfRadius < (y1 + 1) * height) {
+                if(bricks[x1][y1] ==null){
+                    continue;
+                }
+                if(ball.posX + halfRadius > (x1 * width) && ball.posX - halfRadius < (x1 + 1) * width && ball.posY + halfRadius > y1 * height && ball.posY - halfRadius < (y1 + 1) * height) {
                     bricks[x1][y1] = null;
+
+                    Game.getInstance().score +=1;
+                    //Reverse velo when impacting brick
+                    isCollision = true;
+                    ball.velX *= -(1 + (Math.random())/4);
+                    ball.velY *= -(1 + Math.random()/4);
+                    //ball.velX = -ball.velX;
+    
+                        //break LABEL;
+                        break;
                 }
             }
         }
+    }
+
+    public int getWidth() {
+        return WIDTH / cols;
+    }
+    public int getHeight() {
+        return HEIGHT / rows;
     }
 }

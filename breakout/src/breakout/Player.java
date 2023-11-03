@@ -11,7 +11,7 @@ public class Player {
     public double posX;
 
     // The y position of the player
-    public final double posY;
+    public double posY;
 
     public Player(double posX, double posY) {
         this.posX = posX;
@@ -19,17 +19,26 @@ public class Player {
     }
 
     public void moveLeft() {
-        this.posX -= 100;
+        this.posX -= 45;
         checkBounds();
     }
 
     public void moveRight() {
-        this.posX += 100;
+        this.posX += 45;
+        checkBounds();
+    }
+
+    public void moveDown(){
+        this.posY += 25;
+        checkBounds();
+    }
+    public void moveUp(){
+        this.posY -= 25;
         checkBounds();
     }
 
     private void checkBounds() {
-        this.posX = Math.min(this.posX, Game.WINDOW_WIDTH);
+        this.posX = Math.min(this.posX, Game.WINDOW_WIDTH-120);
         this.posX = Math.max(this.posX, 0);
     }
 
