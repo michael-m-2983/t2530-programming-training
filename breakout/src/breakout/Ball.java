@@ -29,7 +29,7 @@ public class Ball {
 
     private void checkCollisions(Player player) {
         // Top, left and right walls
-        if (posX <= 0 || posX >= Game.WINDOW_WIDTH) {
+        if (posX <= 0 || posX >= Game.WINDOW_WIDTH - 30) {
             velX = -velX;
         }
         if (posY <= 0) {
@@ -37,13 +37,13 @@ public class Ball {
         }
 
         // Player
-        if (posX > player.posX && posX < player.posX + Player.WIDTH && posY >= player.posY) {
+        if (posX > player.posX && posX < player.posX + Player.WIDTH && posY >= player.posY - 10) {
             velY = -velY;
-            velX += (Math.random() - 0.5);
+            velX += (Math.random() * 2 - 1);
         }
 
         // Ground
-        if (posY >= Game.WINDOW_HEIGHT + 50) {
+        if (posY >= Game.WINDOW_HEIGHT) {
             System.out.println("Game over, you lose!");
             System.exit(0);
         }
