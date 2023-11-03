@@ -29,11 +29,11 @@ public class Player {
     }
 
     public void moveDown(){
-        this.posY += 4;
+        this.posY += 7;
         checkBounds();
     }
     public void moveUp(){
-        this.posY -= 4;
+        this.posY -= 7;
         checkBounds();
     }
 

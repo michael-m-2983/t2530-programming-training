@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Game extends JPanel implements ActionListener, KeyListener {
 
@@ -30,7 +31,8 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         this.player = new Player(WINDOW_WIDTH / 2 - Player.WIDTH / 2, WINDOW_HEIGHT - Player.HEIGHT * 5);
 
         this.ball = new Ball(WINDOW_WIDTH / 2, WINDOW_HEIGHT - Player.HEIGHT * 8);
-        this.ball.velY = -1.2;
+        this.ball.velX = ThreadLocalRandom.current().nextFloat(-0.5f,0.5f);
+        this.ball.velY = -1.4;
 
         this.board = new Board(10, 10);
 
@@ -46,7 +48,8 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     public void paint(Graphics g) {
 
         // Check collision between ball and bricks
-        board.checkCollisions((int) ball.posX, (int) ball.posY, Ball.RADIUS);
+
+        board.checkCollisions(ball);
 
         // Draw background
         g.setColor(Color.BLACK);
