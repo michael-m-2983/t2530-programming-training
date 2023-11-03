@@ -58,7 +58,8 @@ public class Board {
                     bricks[x1][y1] = null;
                     //Reverse velo when impacting brick
                     isCollision = true;
-                    ball.velX = -ball.velX;
+                    double randint = (Math.random() - 0.5d);
+                    ball.velX = -randint;
                     ball.velY = -ball.velY;
                     //ball.velX = -ball.velX;
                     System.out.println(ball.velY);
