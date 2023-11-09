@@ -28,13 +28,17 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     // TODO: bricks
 
     public Game() {
-        this.player = new Player(WINDOW_WIDTH / 2 - Player.WIDTH / 2, WINDOW_HEIGHT - Player.HEIGHT * 5);
+        this.player = new Player(
+            WINDOW_WIDTH / 2 - Player.WIDTH / 2, // 750/2 - 100/2 = 375 - 50 = 325 = X position of player
+            WINDOW_HEIGHT - Player.HEIGHT * 5 // 500 - 10*5 = 500 - 50 = 450 = Y position of player
+            );
 
         this.ball = new Ball(WINDOW_WIDTH / 2, WINDOW_HEIGHT - Player.HEIGHT * 8);
+        // normal position at 400,400; right next to first brick: 65,25
         this.ball.posX = 400;
         this.ball.posY = 400;
-        this.ball.velY = 2;
-        this.ball.velX = 0;
+        this.ball.velY = -1.5;
+        this.ball.velX = -0.25;
 
         this.board = new Board(10, 10);
 
