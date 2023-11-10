@@ -79,12 +79,12 @@ public class Board {
                             bx > nextcornerY-radius
                             ) &&
 
-                            by > cornerY &&
-                            by < nextcornerY-radius &&
+                            // by > cornerY &&
+                            // by < nextcornerY-radius &&
                             bricks[x1][y1] != null
                         ) {
                             ball.velX *= -1;
-                            
+                            game.Xcontacts = 1;
                         }
                         if ((
                             by > cornerY-radius && 
@@ -92,12 +92,12 @@ public class Board {
                             by < nextcornerY &&
                             by > nextcornerY-radius
                             ) &&
-                            bx > cornerX &&
-                            bx < nextcornerX-radius &&
+                            // bx > cornerX &&
+                            // bx < nextcornerX-radius &&
                             bricks[x1][y1] != null
                         ) {
                             ball.velY *= -1;
-                            
+                            game.Ycontacts += 1;
                         }
                         bricks[x1][y1] = null;
                     }
