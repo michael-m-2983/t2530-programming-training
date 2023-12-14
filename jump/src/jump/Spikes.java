@@ -3,11 +3,11 @@ package jump;
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class Spike {
-    public static final int BaseWidth = 20, Height = 20;
+public class Spikes {
+    private static final int BaseWidth = 20, Height = 20;
     public int posX, posY;
 
-    public Spike(int posX, int posY) {
+    public Spikes(int posX, int posY) {
         this.posX = posX;
         this.posY = posY;
     }
