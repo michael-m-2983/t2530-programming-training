@@ -3,24 +3,21 @@ package jump;
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class Spikes {
-    public static Spike[][] spike; 
+public class Spike {
     private static final int BaseWidth = 20, Height = 20;
     public double posX, posY;
-    public double velX, velY;
+    public double velX = -2, velY;
 
 
-    public Spikes(int posX, int posY) {
-        spike = new Spike[posX][posY];
+    public Spike(int posX, int posY) {
         this.posX = posX;
         this.posY = posY;
-        
     }
 
-    public void collision(int posX, int posY, Player p, Game game) {
-
-    }
     public void render(Graphics g) {
+        posX += velX;
+        posY += velY;
+        
 
         g.setColor(Color.RED);
         g.fillPolygon(

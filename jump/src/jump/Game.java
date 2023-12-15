@@ -19,6 +19,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 
     private final Player player;
 
+    private final Spike spawner;
     private final Spikes spike;
 
     private final Timer timer;
@@ -28,11 +29,15 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     public Game() { // - - - - - - - - VARIABLES - - - - - - - - \\
         this.player = new Player(
             100
-            ,400
+            ,100
         );
         this.spike = new Spikes(
-            500
+            WinWidth-20
             ,WinHeight
+        );
+        this.spawner = new Spike(
+            700,
+            WinHeight
         );
         this.timer = new Timer(1, this);
         this.timer.start();
@@ -40,6 +45,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
         addKeyListener(this);
+
 new Timer(1, this);
         this.timer.start();
 
@@ -59,15 +65,18 @@ new Timer(1, this);
         g.fillRect(0, WinHeight, WINDOW_WIDTH, 15); // 0, 450
 
         // Draw Entities
-        player.render(g, this);
+        player.render(g);
         spike.render(g);
+        spawner.render(g);
 
         // Draw Score
         g.setColor(Color.WHITE);
-        g.drawString("Score: " + score, 12, 16);
+        g.drawString("Timer: " + timer.toString(), 12, 16);
+        g.drawString("Score: " + score, 12, 26);
+        g.drawString("VY: " + player.velY, 12, 36);
         g.dispose();
 
-        // run
+        
     }
 
     @Override
@@ -78,7 +87,7 @@ new Timer(1, this);
     public void keyPressed(KeyEvent e) { // - - - - - - - - - - CONTROLS - - - - - - - - - - \\
         // Left arrow: 37
         switch(e.getKeyCode()) {
-            case 37: // <- Jump
+            case 38: // <- Jump
                 player.jump();
                 break;
             default: // Everything else

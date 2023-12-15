@@ -7,25 +7,38 @@ public class Player {
     public static final double WIDTH = 20, HEIGHT = 20;
     public double posX, posY;
     public double velX, velY;
+    public boolean onground;
 
     public Player(double posX, double posY) {
         this.posX = posX;
         this.posY = posY;
     }
     public void jump() {
-        posY += -10;
+        if (onground) {
+            posY -= 1;
+            velY -= 2.5;
+        }
+        
     }
-    public void gravity(Game game) {
-        if (posY > game.WinHeight-20) {
-            // posY -= 1;
-        } else {
-            posY += 1;
+    public void gravity() {
+        if (posY < Game.WinHeight-20) { // if not on the ground
+            velY += 0.2;
+            onground = false;
+        } else { // if touching ground perfectly
+            velY = 0;
+            onground = true;
+        }
+        if (posY-1 > Game.WinHeight-20) { // if under the ground
+            velY = 0;
+            posY -= 1;
         }
     }
 
-    public void render(Graphics g, Game game) {
+    public void render(Graphics g) {
         // update
-        this.gravity(game);
+        this.gravity();
+        posX += velX;
+        posY += velY;
 
         g.setColor(Color.GREEN);
         g.fillRect((int) this.posX, (int) this.posY, (int) WIDTH, (int) HEIGHT);
