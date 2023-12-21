@@ -2,27 +2,27 @@ package jump;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.lang.Math;
 
 public class Spikes {
 
     private static final int BaseWidth = 20, Height = 20;
     public double[] posX = {750,1000,1100,1500};
-    public double posY;
+    public int posY;
 
     public Spikes(int posY) { // setup and crap
         this.posY = posY;
     }
 
-    public void collision(int posX, int posY, Player p, Game game) {
+    public void collision(double posX, int posY, Player p) {
 
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics g, Player p) {
 
 
         g.setColor(Color.RED);
         for (int i = 0; i < posX.length; i++) {
+            this.collision(posX[i], posY, p);
             posX[i] -= 2; 
 
 

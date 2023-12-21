@@ -51,7 +51,7 @@ new Timer(1, this);
     }
 
     @Override
-    public void paint(Graphics g) {
+    public void paint(Graphics g) { // draw and do crap
 
         // Draw background
         g.setColor(Color.BLACK);
@@ -63,7 +63,7 @@ new Timer(1, this);
         // Draw Entities
         player.render(g);
         spike.render(g);
-        spawner.render(g);
+        spawner.render(g, player);
 
         // Draw Score
         g.setColor(Color.WHITE);
