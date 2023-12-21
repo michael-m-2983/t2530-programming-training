@@ -1,4 +1,4 @@
-package breakout;
+package pong;
 
 import javax.swing.JFrame;
 // important notes
@@ -11,7 +11,7 @@ public class Main {
         window.setSize(Game.WINDOW_WIDTH, Game.WINDOW_HEIGHT);
         window.setResizable(false);
 
-        window.setTitle("Team 2530 Breakout");
+        window.setTitle("Team 2530 Pong");
         
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
