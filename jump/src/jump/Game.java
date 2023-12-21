@@ -19,8 +19,8 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 
     private final Player player;
 
-    private final Spike spawner;
-    private final Spikes spike;
+    private final Spikes spawner;
+    private final Spike spike;
 
     private final Timer timer;
 
@@ -31,12 +31,8 @@ public class Game extends JPanel implements ActionListener, KeyListener {
             100
             ,100
         );
-        this.spike = new Spikes(
-            WinWidth-20
-            ,WinHeight
-        );
-        this.spawner = new Spike(
-            700,
+        this.spike = new Spike(100, 100);
+        this.spawner = new Spikes(
             WinHeight
         );
         this.timer = new Timer(1, this);

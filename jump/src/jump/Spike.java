@@ -19,11 +19,11 @@ public class Spike {
         posY += velY;
         
 
-        g.setColor(Color.RED);
-        g.fillPolygon(
-            new int[] {(int) posX, (int) posX+BaseWidth, (int) (posX+BaseWidth/2)}
-            ,new int[] {(int) posY, (int) posY, (int) posY-Height}
-            , 3
-            );
+        // g.setColor(Color.RED);
+        // g.fillPolygon(
+        //     new int[] {(int) posX, (int) posX+BaseWidth, (int) (posX+BaseWidth/2)}
+        //     ,new int[] {(int) posY, (int) posY, (int) posY-Height}
+        //     , 3
+        //     );
     }
 }
