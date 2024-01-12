@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+
 public class Game extends JPanel implements ActionListener, KeyListener {
 
     public static final int WINDOW_WIDTH = 750, WINDOW_HEIGHT = 500;
@@ -23,18 +24,16 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     private final Spike spike;
 
     private final Timer timer;
+    private final Sound sound;
 
-    // bricks
-
-    public Game() { // - - - - - - - - VARIABLES - - - - - - - - \\
-        this.player = new Player(
-            100
-            ,100
-        );
+    public Game() { // - - - - - - - - VARIABLES at game start - - - - - - - - \\
+        this.player = new Player(100,100);
         this.spike = new Spike(100, 100);
-        this.spawner = new Spikes(
-            WinHeight
-        );
+        this.spawner = new Spikes(WinHeight);
+
+        this.sound = new Sound("Endless_Night.wav");
+        this.sound.play();
+
         this.timer = new Timer(1, this);
         this.timer.start();
 

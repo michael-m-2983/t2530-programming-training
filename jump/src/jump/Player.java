@@ -30,7 +30,7 @@ public class Player {
         }
         if (posY-1 > Game.WinHeight-20) { // if under the ground
             velY = 0;
-            posY = 430;
+            posY -= 1;
         }
     }
 
