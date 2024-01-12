@@ -27,7 +27,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     private final Sound sound;
 
     public Game() { // - - - - - - - - VARIABLES at game start - - - - - - - - \\
-        this.player = new Player(100,100);
+        this.player = new Player(100,300);
         this.spike = new Spike(100, 100);
         this.spawner = new Spikes(WinHeight);
 

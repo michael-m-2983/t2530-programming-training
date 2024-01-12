@@ -16,21 +16,22 @@ public class Player {
     public void jump() {
         if (onground) {
             posY -= 1;
-            velY -= 3;
+            velY -= 2.5;
         }
         
     }
     public void gravity() {
-        if (posY < Game.WinHeight-20) { // if not on the ground
-            velY += 0.3;
+        if (posY < Game.WinHeight-20) { // if not on the ground <430
+            velY += 0.2;
             onground = false;
-        } else { // if touching ground perfectly
+        } else { // if touching ground perfectly: 430
             velY = 0;
             onground = true;
         }
-        if (posY-1 > Game.WinHeight-20) { // if under the ground
+        if (posY-1 > Game.WinHeight-20) { // if under the ground >431
             velY = 0;
             posY -= 1;
+            posY = 430;
         }
     }
 
