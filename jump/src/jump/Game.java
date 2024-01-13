@@ -66,7 +66,8 @@ new Timer(1, this);
         g.setColor(Color.WHITE);
         g.drawString("Timer: " + timer.toString(), 12, 16);
         g.drawString("Score: " + score, 12, 26);
-        g.drawString("VY: " + player.velY, 12, 36);
+        g.drawString("player Y velocity: " + player.velY, 12, 36);
+        g.drawString("Player Y: " + player.posY, 12, 46);
         g.dispose();
 
         

@@ -12,22 +12,32 @@ public class Spikes {
     public double posXs[] = new double[100];
     public int posY;
 
-    public Spikes(int posY) { // setup and crap
-        this.posY = posY;
+    public Spikes(int posY) { // setup and nothing
+        this.posY = posY; // 450
     }
 
     public void collision(double posX, int posY, Player p) {
-        // checking for player collision by a small hitbox
+        // checking for player collision by a smaller hitbox instead of scanning
         // hitbox should be (x+6,y),(x+w-6,y),(x+w-6,y+h-8),(x+6,y+h-8)
         // player hitbox is 20x20 left top is px
 
-        // 
-        double clx = posX+6; // left X
-        double cty = posY-Height-6; // top y
-        double crx = posX+BaseWidth-6; // right x
-        if (
-            p.posX > clx &&
-            p.posX < crx
+        // positive Y is down, negative is up
+        // posX and posY is bottom left corner of spike
+        // p.posX and pby is bottom left corner of player
+        // Player Y at ground is 430
+
+        // quick spike variables
+        double clx = posX+6; // collision left X
+        double cty = posY-Height-6; // collision top y 450-20-6 = 424 bottom y (posY) is 430
+        double crx = posX+BaseWidth-6; // collision right x
+        // quick player variables
+        double pby = p.posY+Player.HEIGHT; // player bottom y
+        double prx = p.posX+Player.WIDTH; // player right x
+        if ( // CURRENTLY WORKING
+            prx > clx &&     // Is player right  X > left spike collision
+            p.posX < crx &&  // Is player (left) x < right spike collision
+            pby > cty &&     // Is player bottom y > top spike collision
+            p.posY < posY    // Is player (top)  y < bottom spike collision
             ) {
                 
             }
