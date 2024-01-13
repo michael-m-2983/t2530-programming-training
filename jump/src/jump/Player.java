@@ -16,7 +16,7 @@ public class Player {
     public void jump() {
         if (onground) {
             posY -= 1;
-            velY -= 2.5;
+            velY -= 2.4;
         }
         
     }
@@ -32,6 +32,7 @@ public class Player {
             velY = 0;
             posY -= 1;
             posY = 430;
+            onground = true;
         }
     }
 
