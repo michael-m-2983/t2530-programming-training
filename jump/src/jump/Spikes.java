@@ -9,14 +9,17 @@ public class Spikes {
 
     private static final int BaseWidth = 20, Height = 20;
 
-    public double posXs[] = new double[100];
-    public int posY;
+    // Blocks 2D Array
+    // the internal array settings: posX, posY, type
+    // type: spike or block, 0 or 1
+    public double block[][] = new double[120][3];
+    public double defY;
 
-    public Spikes(int posY) { // setup and nothing
-        this.posY = posY; // 450
+    public Spikes(int defY) { // setup and nothing
+        this.defY = defY; // 450
     }
 
-    public void collision(double posX, int posY, Player p) {
+    public void collision(double posX, double posY, Player p) {
         // checking for player collision by a smaller hitbox instead of scanning
         // hitbox should be (x+6,y),(x+w-6,y),(x+w-6,y+h-8),(x+6,y+h-8)
         // player hitbox is 20x20 left top is px
@@ -29,7 +32,7 @@ public class Spikes {
         // quick spike variables
         double clx = posX+6; // collision left X
         double cty = posY-Height-6; // collision top y 450-20-6 = 424 bottom y (posY) is 430
-        double crx = posX+BaseWidth-6; // collision right x
+        double crx = posX+BaseWidth-7; // collision right x
         // quick player variables
         double pby = p.posY+Player.HEIGHT; // player bottom y
         double prx = p.posX+Player.WIDTH; // player right x
@@ -39,36 +42,78 @@ public class Spikes {
             pby > cty &&     // Is player bottom y > top spike collision
             p.posY < posY    // Is player (top)  y < bottom spike collision
             ) {
-                
+                System.out.println(" - > you died < -");
+                //System.exit(1);
             }
 
     }
 
     public void generate() {
-        posXs[0] = 750;
+        block[0][0] = 750;
+
         for(int i=1; i<100; i++) {
-            posXs[i] = posXs[i-1] + Math.floor(Math.random()*3)*100;
+            block[i][1] = defY;
+
+            double RandomInt = Math.floor(Math.random()*8);
+            switch ((int) RandomInt) {
+                case 1:
+                    block[i][0] = block[i-1][0] + 6*20;
+                    break;
+                case 2:
+                    block[i][0] = block[i-1][0] + 20;
+                    i+=1;
+                    block[i][0] = block[i-1][0] + 4*20;
+                    
+                    break;
+                case 3:
+                    block[i][0] = block[i-1][0] + 20;
+                    i+=1;
+                    block[i][0] = block[i-1][0] + 20;
+                    i+=1;
+                    block[i][0] = block[i-1][0] + 5*20;
+                    
+                    break;
+                case 4:
+                    block[i][0] = block[i-1][0] + 4*20;
+                    i+=1;
+                    block[i][0] = block[i-1][0] + 5*20;
+                    break;
+                case 5:
+                    block[i][0] = block[i-1][0] + 7*20;
+                    i+=1;
+                    block[i][0] = block[i-1][0] + 4*20;
+                    break;
+                default:
+                    block[i][0] = block[i-1][0] + 8*20;
+                    break;
+            // nothing back here
+            }
         
         }
+        System.out.println("spikes.generation:complete");
     }
 
     public void render(Graphics g, Player p) {
 
-
-        g.setColor(Color.RED);
-        for (int i = 0; i < posXs.length; i++) {
-            posXs[i] -= 2; 
-            this.collision(posXs[i], posY, p);
+        for (int i = 0; i < block.length; i++) {
+            block[i][0] -= 2; 
+            this.collision(block[i][0], block[i][1], p);
 
 
-
+            // spike drawing
+            g.setColor(Color.RED);
             g.fillPolygon(
-                new int[] {(int) posXs[i], (int) posXs[i]+BaseWidth, (int) (posXs[i]+BaseWidth/2)}
-                ,new int[] {(int) posY, (int) posY, (int) posY-Height}
+                new int[] {(int) block[i][0], (int) block[i][0]+BaseWidth, (int) (block[i][0]+BaseWidth/2)}
+                ,new int[] {(int) block[i][1], (int) block[i][1], (int) block[i][1]-Height}
                 ,3
             );
-            if (posXs[99] < 0) {
-                // win message
+            // block drawing
+            // g.setColor(Color.YELLOW);
+            // g.fillRect((int) posXs[i], (int) posY-Height, (int) BaseWidth, (int) Height);
+
+            if (block[99][0] < 0) { // WINNING
+                System.out.println("You made it to the end. Congrats.");
+                System.exit(1);
             }
         }
     }

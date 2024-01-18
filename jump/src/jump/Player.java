@@ -15,8 +15,10 @@ public class Player {
     }
     public void jump() {
         if (onground) {
-            posY -= 1;
+            posY -= 2;
             velY -= 2.4;
+            System.out.println("player.jump:success");
+        } else {
         }
         
     }
@@ -33,6 +35,7 @@ public class Player {
             posY -= 1;
             posY = 430;
             onground = true;
+            System.out.println("player.gravity:inground");
         }
     }
 

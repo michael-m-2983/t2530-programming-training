@@ -18,5 +18,6 @@ public class Main {
         window.add(new Game());
 
         window.setVisible(true);
+        System.out.println("All Main actions successful");
     }
 }

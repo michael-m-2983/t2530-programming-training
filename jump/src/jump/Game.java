@@ -36,6 +36,8 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         this.timer = new Timer(1, this);
         this.timer.start();
 
+        System.out.println("All Spawning/Variables successful");
+
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
         addKeyListener(this);
