@@ -43,7 +43,7 @@ public class Spikes {
             p.posY < posY    // Is player (top)  y < bottom spike collision
             ) {
                 System.out.println(" - > you died < -");
-                //System.exit(1);
+                System.exit(1);
             }
 
     }
