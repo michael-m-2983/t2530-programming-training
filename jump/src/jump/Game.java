@@ -20,15 +20,15 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 
     private final Player player;
 
-    private final Spikes spawner;
+    private final Blocks blocks;
 
     private final Timer timer;
     private final Sound sound;
 
     public Game() { // - - - - - - - - VARIABLES at game start - - - - - - - - \\
         this.player = new Player(100,300);
-        this.spawner = new Spikes(WinHeight);
-        this.spawner.generate();
+        this.blocks = new Blocks(WinHeight);
+        this.blocks.generate();
 
         this.sound = new Sound("Endless_Night.wav");
         this.sound.play();
@@ -61,8 +61,8 @@ new Timer(1, this);
         g.fillRect(0, WinHeight, WINDOW_WIDTH, 15); // 0, 450
 
         // Draw Entities
-        player.render(g);
-        spawner.render(g, player);
+        player.render(g, blocks);
+        blocks.render(g, player);
 
         // Draw Score
         g.setColor(Color.WHITE);
