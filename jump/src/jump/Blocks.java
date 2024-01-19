@@ -11,9 +11,13 @@ public class Blocks {
 
     // Blocks 2D Array
     // the internal array settings: posX, posY, type
+    // NOTHING: 0
     // SPIKE: 1
     // BLOCK: 2
     public double block[][] = new double[120][3];
+    // Level 2D Array
+    // posX and posY
+    // To get a block detail use level[x][y] = thing
     public double level[][] = new double[100][100];
     public double defY;
 
