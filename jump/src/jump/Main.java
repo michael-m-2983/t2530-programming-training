@@ -5,7 +5,7 @@ import javax.swing.JFrame;
 // 0, 0 is top left corner
 // y goes UP as objects go DOWN
 public class Main {
-    public static void main() {
+    public static void main(String[] args) {
         JFrame window = new JFrame();
 
         window.setSize(Game.WINDOW_WIDTH, Game.WINDOW_HEIGHT);
