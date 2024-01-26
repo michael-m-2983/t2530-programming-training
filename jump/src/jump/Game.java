@@ -58,7 +58,7 @@ new Timer(1, this);
     }
 
     @Override
-    public void paint(Graphics g) { // draw and do crap, once per tick
+    public void paint(Graphics g) { // draw and do crap, once per tick 
 
         // Draw background
         g.setColor(Color.BLACK);
