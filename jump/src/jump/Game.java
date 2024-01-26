@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.FileNotFoundException;
 
 
 public class Game extends JPanel implements ActionListener, KeyListener {
@@ -26,9 +27,15 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     private final Sound sound;
 
     public Game() { // - - - - - - - - VARIABLES at game start - - - - - - - - \\
-        this.player = new Player(100,300);
+        this.player = new Player(100,350);
         this.blocks = new Blocks(WinHeight);
-        this.blocks.generate();
+        // this.blocks.generate(); // Generation for testing
+        try {
+            this.blocks.importLvdata("Level.txt");
+        } catch (FileNotFoundException e) {
+            // Auto-generated catch block
+            e.printStackTrace();
+        }
 
         this.sound = new Sound("Endless_Night.wav");
         this.sound.play();
@@ -68,8 +75,8 @@ new Timer(1, this);
         g.setColor(Color.WHITE);
         g.drawString("Timer: " + timer.toString(), 12, 16);
         g.drawString("Score: " + score, 12, 26);
-        g.drawString("player Y velocity: " + player.velY, 12, 36);
-        g.drawString("Player Y: " + player.posY, 12, 46);
+        g.drawString("player Y velocity: " + Math.floor(player.velY), 12, 36);
+        g.drawString("Player Y: " + Math.floor(player.posY), 12, 46);
         g.dispose();
 
         

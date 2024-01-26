@@ -18,18 +18,13 @@ public class Player {
         if (onground) {
             posY -= 2;
             velY -= 2.4;
-            System.out.println("player.jump:success");
-        } else {
-
-        }}
+        }
+    }
     public void gravity(Blocks b) {
         // Blocks gravity collision
-        if (blockcontact) {
-            
-            System.out.println("player.gravity:inblock");
-        } else {
+        if (!blockcontact) {
             if ((posY < Game.WinHeight-20)) { // if not on the ground <430
-                velY += 0.2;
+                velY += 0.18;
                 onground = false;
             } else { // if touching ground perfectly: 430
                 velY = 0;
@@ -40,7 +35,7 @@ public class Player {
                 posY -= 1;
                 posY = 430;
                 onground = true;
-                System.out.println("player.gravity:inground");
+                
             }}}
 
     public void render(Graphics g, Blocks b) {
