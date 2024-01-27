@@ -21,21 +21,22 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     private final Player player;
 
     private final Spikes spawner;
-    private final Spike spike;
 
     private final Timer timer;
     private final Sound sound;
 
     public Game() { // - - - - - - - - VARIABLES at game start - - - - - - - - \\
         this.player = new Player(100,300);
-        this.spike = new Spike(100, 100);
         this.spawner = new Spikes(WinHeight);
+        this.spawner.generate();
 
         this.sound = new Sound("Endless_Night.wav");
         this.sound.play();
 
         this.timer = new Timer(1, this);
         this.timer.start();
+
+        System.out.println("All Spawning/Variables successful");
 
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
@@ -50,7 +51,7 @@ new Timer(1, this);
     }
 
     @Override
-    public void paint(Graphics g) { // draw and do crap
+    public void paint(Graphics g) { // draw and do crap, once per tick
 
         // Draw background
         g.setColor(Color.BLACK);
@@ -61,14 +62,14 @@ new Timer(1, this);
 
         // Draw Entities
         player.render(g);
-        spike.render(g);
         spawner.render(g, player);
 
         // Draw Score
         g.setColor(Color.WHITE);
         g.drawString("Timer: " + timer.toString(), 12, 16);
         g.drawString("Score: " + score, 12, 26);
-        g.drawString("VY: " + player.velY, 12, 36);
+        g.drawString("player Y velocity: " + player.velY, 12, 36);
+        g.drawString("Player Y: " + player.posY, 12, 46);
         g.dispose();
 
         
