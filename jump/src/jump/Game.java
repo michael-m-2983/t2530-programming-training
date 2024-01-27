@@ -16,6 +16,9 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 
     public static final int WINDOW_WIDTH = 750, WINDOW_HEIGHT = 500;
     public static final int WinWidth = 750, WinHeight = 450;
+    public static boolean upkeypressed;
+
+    public static final boolean useleveldata = true;
 
     public int score = 0;
 
@@ -29,13 +32,14 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     public Game() { // - - - - - - - - VARIABLES at game start - - - - - - - - \\
         this.player = new Player(100,350);
         this.blocks = new Blocks(WinHeight);
-        // this.blocks.generate(); // Generation for testing
-        try {
-            this.blocks.importLvdata("Level.txt");
-        } catch (FileNotFoundException e) {
-            // Auto-generated catch block
-            e.printStackTrace();
-        }
+        if (useleveldata) {
+            try {
+                this.blocks.importLvdata("Level.txt");
+            } catch (FileNotFoundException e) {
+                // Auto-generated catch block
+                e.printStackTrace();
+            } 
+        } else {this.blocks.generate();}
 
         this.sound = new Sound("Endless_Night.wav");
         this.sound.play();
@@ -67,8 +71,11 @@ new Timer(1, this);
         g.setColor(Color.WHITE);
         g.fillRect(0, WinHeight, WINDOW_WIDTH, 15); // 0, 450
 
+        // Run Physics
+        player.update();
+
         // Draw Entities
-        player.render(g, blocks);
+        player.render(g);
         blocks.render(g, player);
 
         // Draw Score
@@ -90,8 +97,8 @@ new Timer(1, this);
     public void keyPressed(KeyEvent e) { // - - - - - - - - - - CONTROLS - - - - - - - - - - \\
         // Left arrow: 37
         switch(e.getKeyCode()) {
-            case 38: // <- Jump
-                player.jump();
+            case 38: // Up arrow
+                upkeypressed = true;
                 break;
             default: // Everything else
                 break; 
@@ -100,6 +107,13 @@ new Timer(1, this);
 
     @Override
     public void keyReleased(KeyEvent e) {
+        switch(e.getKeyCode()) {
+            case 38: // Up arrow
+                upkeypressed = false;
+                break;
+            default:
+                break;
+        }
     }
 
     @Override
