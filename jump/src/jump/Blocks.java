@@ -23,7 +23,7 @@ public class Blocks {
     // Level 2D Array
     // posX and posY
     // To get a block detail use level[x][y] = thing
-    public int level[][] = new int[1000][10];
+    public double level[][] = new double[1000][10];
     public int blocks;
     public double defY;
 
@@ -39,64 +39,73 @@ public class Blocks {
         double pby = p.posY+Player.HEIGHT; // player bottom y
         double prx = p.posX+Player.WIDTH; // player right x
 
-        if (t==2) { // BLOCK COLLISION
-            // TRUE: Block X and Y is left bottom
+        switch ((int) t) { // BLOCK COLLISION
+            case 2:
+                // TESTED: Block X and Y is left bottom
 
-            // quick block variables
-            double brx = posX+Width; // Block Right X
-            double bty = posY-Height;// Block Top Y
-            if (
-                prx > posX &&     // Is player right  X > left block collision
-                p.posX < brx &&   // Is player (left) x < right block collision
-                pby > bty &&      // Is player bottom y > top block collision
-                p.posY < posY-2     // Is player (top)  y < bottom block collision
-            ) {
+                double brx = posX+Width; // Block Right X
+                double bty = posY-Height;// Block Top Y
                 if (
-                    pby > bty+5
-                    ) { // Is player bottom y not too low
-                    System.out.println("- - - - - - - ");
-                    System.out.println(" > you died < "); // DEATH
-                    System.out.println("- - - - - - - ");
-                    System.exit(1);
-                } else {
-                    p.velY = 0;
-                    p.posY -= 1;
-                    p.posY = bty-Player.HEIGHT;
-                    p.jumpable = true;
-                    // System.out.println("block.collision:inblock");
-                }
-            }
-        } else if (t==1) { // SPIKE COLLISION
-            // Player Y at ground is 430
-        
-            double clx = posX+6; // collision left X
-            double cty = posY-Height+6; // collision top y 450-20-6 = 424 bottom y (posY) is 430
-            double crx = posX+Width-7; // collision right x
-            if ( // CURRENTLY WORKING
-                prx > clx &&     // Is player right  X > left spike collision
-                p.posX < crx &&  // Is player (left) x < right spike collision
-                pby > cty &&     // Is player bottom y > top spike collision
-                p.posY < posY    // Is player (top)  y < bottom spike collision
+                    prx > posX &&     // Is player right  X > left block collision
+                    p.posX < brx &&   // Is player (left) x < right block collision
+                    pby > bty &&      // Is player bottom y > top block collision
+                    p.posY < posY-2   // Is player (top)  y < bottom block collision
                 ) {
-                    System.out.println("- - - - - - - ");
-                    System.out.println(" > you died < "); // DEATH
-                    System.out.println("- - - - - - - ");
-                    System.exit(1);
+                    if (pby > bty+5) { // Is player bottom y not too low
+                        System.out.println("- - - - - - - ");
+                        System.out.println(" > you died < "); // DEATH
+                        System.out.println("- - - - - - - ");
+                        System.exit(1);
+                    } else {
+                        p.velY = 0;
+                        p.posY -= 1; p.posY = bty-Player.HEIGHT;
+                        p.jumpable = true;
+                        // System.out.println("block.collision:inblock");
+                    }
                 }
-        } else if (t==3) { // ORB collision
-            // A bigger hitbox is used
-            if (
-                prx > posX-3 &&
-                p.posX < posX+Width+3 &&
-                pby > posY-Height-3 &&
-                p.posY < posY+3
-            ) {
-                p.orbcontact = true;
-            }
+                break;
+            case 1:  // SPIKE COLLISION - - - -
+                // Player Y at ground is 430
+        
+                double clx = posX+6; // collision left X
+                double cty = posY-Height+6; // collision top y 450-20-6 = 424 bottom y (posY) is 430
+                double crx = posX+Width-7; // collision right x
+                if ( // CURRENTLY WORKING
+                    prx > clx &&     // Is player right  X > left spike collision
+                    p.posX < crx &&  // Is player (left) x < right spike collision
+                    pby > cty &&     // Is player bottom y > top spike collision
+                    p.posY < posY    // Is player (top)  y < bottom spike collision
+                    ) {
+                        System.out.println("- - - - - - - "); System.out.println(" > you died < ");
+                        System.out.println("- - - - - - - "); System.exit(1);}
+                break;
+            case 3:  // ORB collision
+                // A bigger hitbox is used
+                if (
+                    prx > posX-3 &&          // Left collision
+                    p.posX < posX+Width+3 && // Right collision
+                    pby > posY-Height-3 &&   // Top collision
+                    p.posY < posY+3          // Bottom collision
+                ) {p.orbcontact = true;}
+                break;
+            case 4: // PAD collision
+                // A little small hitbox
+                if (
+                    prx > posX+3 &&
+                    p.posX < posX+Width-3 &&
+                    pby > posY-(Height/4) &&
+                    p.posY < posY
+                ) {
+                    p.posY -= 2;
+                    p.velY = -5.7;
+                }
+                break;
+            default:
+                break;
         }
     }
 
-    public void generate() {
+    public void generate() { // This generates a test-used pattern or something.
         
         block[0][0] = 750; block[0][1] = defY; block[0][2] = 0;
         for(int i=1; i<100; i++) {
@@ -119,25 +128,28 @@ public class Blocks {
         //System.out.println(Arrays.deepToString(block));
     }
 
-    public void importLvdata(String file) throws FileNotFoundException {
-        Scanner sc = new Scanner(new File(file));
+    public void importLvdata(String file) throws FileNotFoundException { // This imports the level.txt file.
+        Scanner sc = new Scanner(new File(file)); // I use Scanner.
         List<String> lines = new ArrayList<String>();
-        while (sc.hasNextLine()) {
-            lines.add(sc.nextLine());
-        }
-        String[] arr = lines.toArray(new String[0]);
+        while (sc.hasNextLine()) {lines.add(sc.nextLine());}
+        String[] arr = lines.toArray(new String[0]); // The scanner output goes to String array arr
         //System.out.println(Arrays.deepToString(arr));
 
         int arrstrlen = arr[0].length();
-        for (int gridx = 0; gridx < arrstrlen; gridx++) {
+        for (int gridx = 0; gridx < arrstrlen; gridx++) { // Converting to a 2D Array: Level[][]
             for (int gridy=0;gridy<arr.length;gridy++) {
                 int tgridy = -(gridy-9);
-                level[gridx][tgridy] = arr[gridy].charAt(gridx)-48;
+                double curchar = arr[gridy].charAt(gridx)-48;
+                // If non-numerical characters must be replaced with a double, do it here.
+
+
+
+                level[gridx][tgridy] = curchar;
         }}
         // System.out.println(Arrays.deepToString(level));
 
         int blockn=0;
-        for (int lvx=0;lvx < level.length;lvx++) {
+        for (int lvx=0;lvx < level.length;lvx++) { // Converting to Block[][] Format
             for (int lvy=0;lvy < 10;lvy++) {
                 if (!(level[lvx][lvy] == 0.0)) {
                     block[blockn][0] = 20*lvx;
@@ -147,39 +159,46 @@ public class Blocks {
                 }
             }
         }
-        blocks = blockn;
+        blocks = blockn; // keeps track of how many blocks has been imported
         System.out.println(Arrays.deepToString(block));
         System.out.println("Leveldata import complete");
     }
     public void render(Graphics g, Player p) { // RENDERING - - - - - - - - - - - - - - - - - - - - - - - - -
+        for (int i = 0; i < blocks; i++) {
+            if (!(block[i][2] == 0) && block[i][0] < Game.WinWidth && block[i][0] > -40) {
+                int blockx = (int) block[i][0];
+                int blocky = (int) block[i][1];
+                block[i][0] -= 2; 
+                this.collision(block[i][0], block[i][1], block[i][2], p);
 
-        for (int i = 0; i < block.length; i++) {
-            block[i][0] -= 2; 
-            this.collision(block[i][0], block[i][1], block[i][2], p);
+                switch ((int) block[i][2]) {
+                    case 1:     // SPIKE drawing
+                        g.setColor(Color.RED);
+                        g.drawPolygon(
+                            new int[] {blockx, (int) blockx+Width, (int) (blockx+Width/2)}
+                            ,new int[] {blocky, blocky, blocky-Height}
+                            ,3);
+                        break;
+                    case 2:     // BLOCK drawing
+                        g.setColor(Color.white);
+                        g.drawRect(blockx, (int) blocky-Height, (int) Width, (int) Height);
+                        break;
+                    case 3:     // ORB drawing
+                        g.setColor(Color.yellow);
+                        g.fillOval(blockx+1, blocky-Height+1, Width-1, Height-1);
+                        break;
+                    case 4:     // PAD drawing
+                        g.setColor(Color.yellow);
+                        g.fillArc(blockx, blocky-(Height/4), Width, Height/2, 180, -180);
+                        break;
+                    default:
+                        break;
+                }}
 
-            int blockx = (int) block[i][0];
-            int blocky = (int) block[i][1];
-
-
-            if (block[i][2] == 1) {        // SPIKE drawing
-                g.setColor(Color.RED);
-                g.drawPolygon(
-                    new int[] {blockx, (int) blockx+Width, (int) (block[i][0]+Width/2)}
-                    ,new int[] {blocky, blocky, blocky-Height}
-                    ,3
-                );
-            } else if (block[i][2] == 2) { // BLOCK drawing
-                g.setColor(Color.white);
-                g.drawRect(blockx, (int) blocky-Height, (int) Width, (int) Height);
-            } else if (block[i][2] == 3) { // ORB drawing
-                g.setColor(Color.yellow);
-                g.fillOval(blockx+1, blocky-Height+1, Width-1, Height-1);
-            }
-
-            if (block[blocks-1][0] < 20) { // WINNING
-                System.out.println("- - - - - - - - - - - - - - - - -");
-                System.out.println("You made it to the end. Congrats.");
-                System.out.println("- - - - - - - - - - - - - - - - -");
-                
-                System.exit(1);
-            }}}}
+                if (block[blocks-1][0] < -20) { // WINNING
+                    System.out.println("- - - - - - - - - - - - - - - - -");
+                    System.out.println("You made it to the end. Congrats.");
+                    System.out.println("- - - - - - - - - - - - - - - - -");
+                    System.exit(1);
+            }}}
+        }

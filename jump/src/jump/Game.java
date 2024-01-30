@@ -30,7 +30,6 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     private final Sound sound;
 
     public Game() { // - - - - - - - - VARIABLES at game start - - - - - - - - \\
-        this.player = new Player(100,350);
         this.blocks = new Blocks(WinHeight);
         if (useleveldata) {
             try {
@@ -41,7 +40,9 @@ public class Game extends JPanel implements ActionListener, KeyListener {
             } 
         } else {this.blocks.generate();}
 
-        this.sound = new Sound("Endless_Night.wav");
+        this.player = new Player(100,350);
+
+        this.sound = new Sound("BackOnTrack.wav");
         this.sound.play();
 
         this.timer = new Timer(1, this);
