@@ -42,7 +42,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 
         this.player = new Player(100,350);
 
-        this.sound = new Sound("BackOnTrack.wav");
+        this.sound = new Sound("Endless_Night.wav");
         this.sound.play();
 
         this.timer = new Timer(1, this);
@@ -85,6 +85,8 @@ new Timer(1, this);
         g.drawString("Score: " + score, 12, 26);
         g.drawString("player Y velocity: " + Math.floor(player.velY), 12, 36);
         g.drawString("Player Y: " + Math.floor(player.posY), 12, 46);
+        g.drawString("blocks: " + blocks.blocks, 12, 56);
+        g.drawString("lastblockx: " + blocks.block[blocks.blocks-1][0], 12, 66);
         g.dispose();
 
         

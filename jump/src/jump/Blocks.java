@@ -33,32 +33,32 @@ public class Blocks {
 
     public void collision(double posX, double posY, double t, Player p) { // COLLISION - - - - - - - - - - - -
         // quick player variables
-
+        int blocktype = (int) Math.floor(t/10);
         //     p.posX // Player left x
         //     p.posY // Player top Y
         double pby = p.posY+Player.HEIGHT; // player bottom y
         double prx = p.posX+Player.WIDTH; // player right x
 
-        switch ((int) t) { // BLOCK COLLISION
+        switch (blocktype) { // BLOCK COLLISION
             case 2:
                 // TESTED: Block X and Y is left bottom
 
                 double brx = posX+Width; // Block Right X
                 double bty = posY-Height;// Block Top Y
-                if (
-                    prx > posX &&     // Is player right  X > left block collision
+                if (prx > posX &&     // Is player right  X > left block collision
                     p.posX < brx &&   // Is player (left) x < right block collision
                     pby > bty &&      // Is player bottom y > top block collision
-                    p.posY < posY-2   // Is player (top)  y < bottom block collision
+                    p.posY < posY   // Is player (top)  y < bottom block collision
                 ) {
-                    if (pby > bty+5) { // Is player bottom y not too low
+                    if ((p.gravity==1 && pby > bty+5) || p.gravity==-1 && p.posY < posY-10) { // Is player bottom y not too low
                         System.out.println("- - - - - - - ");
                         System.out.println(" > you died < "); // DEATH
                         System.out.println("- - - - - - - ");
                         System.exit(1);
                     } else {
                         p.velY = 0;
-                        p.posY -= 1; p.posY = bty-Player.HEIGHT;
+                        p.posY -= p.gravity; 
+                        if (p.gravity==1){p.posY = bty-Player.HEIGHT;} else {p.posY=posY;}
                         p.jumpable = true;
                         // System.out.println("block.collision:inblock");
                     }
@@ -81,12 +81,11 @@ public class Blocks {
                 break;
             case 3:  // ORB collision
                 // A bigger hitbox is used
-                if (
-                    prx > posX-3 &&          // Left collision
+                if (prx > posX-3 &&          // Left collision
                     p.posX < posX+Width+3 && // Right collision
                     pby > posY-Height-3 &&   // Top collision
                     p.posY < posY+3          // Bottom collision
-                ) {p.orbcontact = true;}
+                ) {p.orbcontact = 1;}
                 break;
             case 4: // PAD collision
                 // A little small hitbox
@@ -96,12 +95,26 @@ public class Blocks {
                     pby > posY-(Height/4) &&
                     p.posY < posY
                 ) {
-                    p.posY -= 2;
-                    p.velY = -5.7;
+                    p.posY -= p.gravity*4;
+                    switch ((int)t) {
+                        case 40:
+                            p.velY = -5.7;
+                            break;
+                        case 41:
+                            p.velY = -3.8;
+                            break;
+                        case 42:
+                            p.velY = -6.7;
+                            break;
+                        case 43:
+                            p.gravity *= -1;
+                            p.velY = p.gravity*5.7;
+                            break;
+                        default:break;
+                    }
                 }
                 break;
-            default:
-                break;
+            default:break;
         }
     }
 
@@ -132,24 +145,47 @@ public class Blocks {
         Scanner sc = new Scanner(new File(file)); // I use Scanner.
         List<String> lines = new ArrayList<String>();
         while (sc.hasNextLine()) {lines.add(sc.nextLine());}
-        String[] arr = lines.toArray(new String[0]); // The scanner output goes to String array arr
+        String[] arr = lines.toArray(new String[0]); // The scanner output goes to String array arr[x][v]
         //System.out.println(Arrays.deepToString(arr));
 
         int arrstrlen = arr[0].length();
-        for (int gridx = 0; gridx < arrstrlen; gridx++) { // Converting to a 2D Array: Level[][]
+        for (int gridx = 0; gridx < arrstrlen; gridx++) { // Converting to a 2D Array: Level[x][y]
             for (int gridy=0;gridy<arr.length;gridy++) {
                 int tgridy = -(gridy-9);
                 double curchar = arr[gridy].charAt(gridx)-48;
+                double ibtype;
                 // If non-numerical characters must be replaced with a double, do it here.
-
-
-
-                level[gridx][tgridy] = curchar;
+                // A~Z: 17~42, a~z: 49~75, 0~9: 0~9
+                // qwer is orbs, asdf is pads
+                switch ((int) curchar) {
+                    case 0:ibtype=0;break;
+                    case 1:ibtype=10;break;
+                    case 2:ibtype=20;break;
+                    case 49: // a
+                        ibtype=40;
+                        break;
+                    case 67: // s
+                        ibtype=41;
+                        break;
+                    case 52: // d
+                        ibtype=42;
+                        break;
+                    case 54: // f
+                        ibtype=43;
+                        break;
+                    default:
+                        System.out.println(curchar + " Converted into tens.");
+                        ibtype=curchar*10;
+                        break;
+                } 
+                // 1 is Spike, 2 is Block, 3 is Orbs, 4 is Pads
+                // #1 = Pink, #2 = Red #3 = Blue
+                level[gridx][tgridy] = ibtype;
         }}
-        // System.out.println(Arrays.deepToString(level));
+        //System.out.println(Arrays.deepToString(level));
 
         int blockn=0;
-        for (int lvx=0;lvx < level.length;lvx++) { // Converting to Block[][] Format
+        for (int lvx=0;lvx < level.length;lvx++) { // Converting Level[x][y] to Block[n][v] Format
             for (int lvy=0;lvy < 10;lvy++) {
                 if (!(level[lvx][lvy] == 0.0)) {
                     block[blockn][0] = 20*lvx;
@@ -161,38 +197,45 @@ public class Blocks {
         }
         blocks = blockn; // keeps track of how many blocks has been imported
         System.out.println(Arrays.deepToString(block));
-        System.out.println("Leveldata import complete");
+        System.out.println("Leveldata import complete with "+blocks+" blocks");
     }
     public void render(Graphics g, Player p) { // RENDERING - - - - - - - - - - - - - - - - - - - - - - - - -
         for (int i = 0; i < blocks; i++) {
+            block[i][0] -= 2;
             if (!(block[i][2] == 0) && block[i][0] < Game.WinWidth && block[i][0] > -40) {
-                int blockx = (int) block[i][0];
-                int blocky = (int) block[i][1];
-                block[i][0] -= 2; 
-                this.collision(block[i][0], block[i][1], block[i][2], p);
+                this.collision(block[i][0], block[i][1], block[i][2], p); // Collision
+                int blockx = (int) block[i][0]; int blocky = (int) block[i][1];
+                Double blockt = block[i][2]; char subblockt = blockt.toString().charAt(1);
+                int Pblockt = (int) Math.floor(blockt/10);
+                //System.out.println(subblockt);
 
-                switch ((int) block[i][2]) {
-                    case 1:     // SPIKE drawing
-                        g.setColor(Color.RED);
+                switch (subblockt) { // Color
+                    case '0':
+                        g.setColor(Color.yellow);
+                        break;
+                    case '1':
+                        g.setColor(Color.pink);
+                        break;
+                    case '2':
+                        g.setColor(Color.red);
+                        break;
+                    case '3':
+                        g.setColor(Color.cyan);
+                        break;
+                    default:break;
+                }
+                if (Pblockt==1) {        // SPIKE drawing
+                        g.setColor(Color.red);
                         g.drawPolygon(
                             new int[] {blockx, (int) blockx+Width, (int) (blockx+Width/2)}
-                            ,new int[] {blocky, blocky, blocky-Height}
-                            ,3);
-                        break;
-                    case 2:     // BLOCK drawing
+                            ,new int[] {blocky, blocky, blocky-Height},3);
+                } else if (Pblockt==2) { // BLOCK drawing
                         g.setColor(Color.white);
                         g.drawRect(blockx, (int) blocky-Height, (int) Width, (int) Height);
-                        break;
-                    case 3:     // ORB drawing
-                        g.setColor(Color.yellow);
-                        g.fillOval(blockx+1, blocky-Height+1, Width-1, Height-1);
-                        break;
-                    case 4:     // PAD drawing
-                        g.setColor(Color.yellow);
-                        g.fillArc(blockx, blocky-(Height/4), Width, Height/2, 180, -180);
-                        break;
-                    default:
-                        break;
+                } else if (Pblockt==3) { // ORB Drawing
+                    g.fillOval(blockx+1, blocky-Height+1, Width-1, Height-1);
+                } else if (Pblockt==4) { // PAD drawing
+                    g.fillArc(blockx, blocky-(Height/4), Width, Height/2, 180, -180);
                 }}
 
                 if (block[blocks-1][0] < -20) { // WINNING
@@ -200,5 +243,7 @@ public class Blocks {
                     System.out.println("You made it to the end. Congrats.");
                     System.out.println("- - - - - - - - - - - - - - - - -");
                     System.exit(1);
-            }}}
+            }
         }
+    }
+}

@@ -5,33 +5,33 @@ import java.awt.Graphics;
 
 public class Player {
     public static final double WIDTH = 20, HEIGHT = 20;
-    public double posX, posY;
-    public double velX, velY;
+    public double posX, posY; public double velX, velY;
+    public int gravity = 1;
     public boolean jumpable;
-    public boolean orbcontact;
+    public int orbcontact;
 
     public Player(double posX, double posY) {
         this.posX = posX;
         this.posY = posY;
     }
     public void jump() {
-        if (orbcontact) {
-            posY -= 1;
-            velY = -4;
+        if (orbcontact==1) {
+            posY -= gravity;
+            velY = gravity*-4;
         } else if (jumpable) {
-            posY -= 2;
-            velY = -3.9;
+            posY -= gravity*2;
+            velY = gravity*-3.8;
         }
     }
     public void gravity() {
         // Blocks gravity collision
         if ((posY < Game.WinHeight-20)) { // if not on the ground <430
-            velY += 0.18;
+            velY += gravity*0.18;
             jumpable = false;
-            orbcontact = false;
-        } else if ((posY-1 > Game.WinHeight-20)) { // if under the ground >431
+            orbcontact = 0;
+        } else if ((posY-1 > Game.WinHeight-20) && gravity==1) { // if under the ground >431
             velY = 0;
-            posY -= 1;
+            posY -= gravity;
             posY = 430;
             jumpable = true;  
         }
