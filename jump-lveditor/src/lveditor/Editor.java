@@ -5,6 +5,7 @@ import javax.swing.Timer;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.RenderingHints.Key;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -13,7 +14,7 @@ import java.io.FileNotFoundException;
 
 public class Editor extends JPanel implements ActionListener, KeyListener{
     public static final int WinWidth=750,WinHeight=500;
-    public static boolean KeyPressed[] = new boolean[4];
+    public static boolean KeyPressed[] = new boolean[100];
 
     private final Timer timer;
 
@@ -42,14 +43,14 @@ new Timer(1, this);
         g.setColor(Color.white); g.drawRect(-1, WinHeight-50, WinWidth, 15);
 
         // Running code
-
+        block.actions(blocks, g);
+        blocks.actions(g);
 
         // rendering
-        block.render(g);
-        blocks.render(g);
         // scores
         g.setColor(Color.white);
-        g.drawString(""+block.posY, 12, 12);
+        g.drawString("posY: "+block.posY, 12, 12);
+        g.drawString("BlockType: "+block.blocktype, 12, 24);
 
         g.dispose();
     }
@@ -58,26 +59,29 @@ new Timer(1, this);
 
     @Override
         public void keyPressed(KeyEvent e) { // - - - - - - - - - - CONTROLS - - - - - - - - - - \\
-            switch(e.getKeyCode()) { // is 'a' 49?
+            switch(e.getKeyCode()) { // A~Z 65~
                 case 37: // Left Key
                     block.posX-=10;
-                    KeyPressed[0] = true;
-                    break;
+                    KeyPressed[0] = true; break;
                 case 38: // Up Key
                     block.posY-=10;
-                    KeyPressed[1] = true;
-                    break;
+                    KeyPressed[1] = true;break;
                 case 39: // Right Key
                     block.posX+=10;
-                    KeyPressed[2] = true;
-                    break;
+                    KeyPressed[2] = true;break;
                 case 40: // Down Key
                     block.posY+=10;
-                    KeyPressed[3] = true;
-                    break;
-                case 65:
-                    block.addblock(blocks);
-                    break;
+                    KeyPressed[3] = true;break;
+                case 65: // A key
+                    KeyPressed[20] = true;break;
+                case 68: // D key
+                    KeyPressed[23] = true;break;
+                case 87: // W key
+                    KeyPressed[42]=true;break;
+                case 90: // Z key
+                    KeyPressed[45]=true;break;
+                case 67: // C key
+                    KeyPressed[22]=true;break;
                 default: // Everything else
                     break; 
             }
@@ -87,17 +91,23 @@ new Timer(1, this);
         public void keyReleased(KeyEvent e) {
             switch(e.getKeyCode()) {
                 case 37: // Left Key
-                    KeyPressed[0] = false;
-                    break;
+                    KeyPressed[0] = false;break;
                 case 38: // Up Key
-                    KeyPressed[1] = false;
-                    break;
+                    KeyPressed[1] = false;break;
                 case 39: // Right Key
-                    KeyPressed[2] = false;
-                    break;
+                    KeyPressed[2] = false;break;
                 case 40: // Down Key
-                    KeyPressed[3] = false;
-                    break;
+                    KeyPressed[3] = false;break;
+                case 65: //A
+                    KeyPressed[20] = false;break;
+                case 68: //D
+                    KeyPressed[23]=false;break;
+                case 87: //W
+                    KeyPressed[42]=false;break;
+                case 90: //Z
+                    KeyPressed[45]=false;break;
+                case 67: // C
+                    KeyPressed[22]=false;break;
                 default: // Everything else
                     break; 
             }

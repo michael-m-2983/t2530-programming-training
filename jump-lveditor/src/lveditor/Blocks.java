@@ -2,26 +2,61 @@ package lveditor;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
 // do not use arraylist, it is garbage
 import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
 
 public class Blocks {
     private static final int Width = 20, Height = 20;
 
-    public double blocks[][] = new double[1000][4];
+    public double blocks[][] = new double[100][4];
+    // Blocks array
+    // 0: posX, 1: posY, 2: dir, 3: type
     
 
     public Blocks() {
 
     }
-    public void render(Graphics g) {
-        for (int i = 0; i < 1000; i++) {
-
+    public void actions(Graphics g) {
+        for (int i = 0; i < 100; i++) {
+            
+            render(g, i);
+        }
+        
+    }
+    public void render(Graphics g, int i) {
+        if (!(blocks[i][3]==0)) {
+            int bX=(int)blocks[i][0];int bY=(int)blocks[i][1];
+            Double bT=blocks[i][3];char SbT=bT.toString().charAt(1);int PbT=(int) Math.floor(bT/10);
+            // System.out.println(PbT);
+            switch (SbT) { // Color
+                case '0':
+                    g.setColor(Color.yellow);break;
+                case '1':
+                    g.setColor(Color.pink);break;
+                case '2':
+                    g.setColor(Color.red);break;
+                case '3':
+                    g.setColor(Color.cyan);break;
+                default:
+                    g.setColor(Color.white);break;
+            }
+            switch (PbT) {
+                case 1: // Block
+                    g.setColor(Color.white); g.drawRect(bX,bY,Width,Height);
+                    break;
+                case 2: // Spike
+                    g.setColor(Color.red); g.drawPolygon(
+                    new int[] {bX, (int) bX+Width, (int) (bX+Width/2)}
+                    ,new int[] {bY+Height, bY+Height, bY},3);
+                    break;
+                case 3: // Orb
+                    g.fillOval(bX+1, bY+1, Width-1, Height-1);
+                    break;
+                case 4: // Pad
+                    g.fillArc(bX, bY+Height-(Height/4), Width, Height/2, 180, -180);
+                    break;
+                default:break;
+            }
         }
     }
 }
