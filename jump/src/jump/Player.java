@@ -9,19 +9,35 @@ public class Player {
     public int gravity = 1;
     public boolean jumpable;
     public int orbcontact;
+    private boolean orbcooldown;
 
     public Player(double posX, double posY) {
         this.posX = posX;
         this.posY = posY;
     }
     public void jump() {
-        if (orbcontact==1) {
+        if (orbcooldown && orbcontact==0) {
+            orbcooldown = false;
+        } else if (!(orbcontact==0) && !orbcooldown) {
             posY -= gravity;
-            velY = gravity*-4;
-        } else if (jumpable) {
+            switch (orbcontact) {
+                case 30: // YELLOW
+                    velY = gravity*-5; break;
+                case 31: // PINK
+                    velY = gravity*-3.4; break;
+                case 32: // RED
+                    velY = gravity*-6.7; break;
+                case 33: // CYAN
+                    gravity*=-1;
+                    velY = gravity*5.5; break;
+                default:break;
+            }
+            orbcooldown = true;
+        } else if (jumpable && orbcontact==0) {
             posY -= gravity*2;
             velY = gravity*-3.8;
         }
+    
     }
     public void gravity() {
         // Blocks gravity collision

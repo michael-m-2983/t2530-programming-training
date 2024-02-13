@@ -19,6 +19,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     public static boolean upkeypressed;
 
     public static final boolean useleveldata = true;
+    public static final boolean debug = false;
 
     public int score = 0;
 

@@ -25,7 +25,7 @@ public class Blocks {
     }
     public void render(Graphics g, int i) {
         if (!(blocks[i][3]==0)) {
-            int bX=(int)blocks[i][0];int bY=(int)blocks[i][1];
+            int bX=(int)(blocks[i][0] - Editor.ScreenX);int bY=(int)blocks[i][1];
             Double bT=blocks[i][3];char SbT=bT.toString().charAt(1);int PbT=(int) Math.floor(bT/10);
             // System.out.println(PbT);
             switch (SbT) { // Color
@@ -46,11 +46,11 @@ public class Blocks {
                     break;
                 case 2: // Spike
                     g.setColor(Color.red); g.drawPolygon(
-                    new int[] {bX, (int) bX+Width, (int) (bX+Width/2)}
+                    new int[] {bX, bX+Width, bX+Width/2}
                     ,new int[] {bY+Height, bY+Height, bY},3);
                     break;
                 case 3: // Orb
-                    g.fillOval(bX+1, bY+1, Width-1, Height-1);
+                    g.drawOval(bX+1, bY+1, Width-1, Height-1);
                     break;
                 case 4: // Pad
                     g.fillArc(bX, bY+Height-(Height/4), Width, Height/2, 180, -180);

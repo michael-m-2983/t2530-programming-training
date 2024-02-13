@@ -8,6 +8,7 @@ import java.util.Arrays;
 public class Block {
     private static final int Width = 20, Height = 20;
     public double posX=0, posY=430, dir=0, blocktype=10;
+
     public int placedblocks = 0;
     public boolean[] keypressed = new boolean[100];
 
@@ -18,7 +19,7 @@ public class Block {
     }
     public String LastBInArray(Blocks b) {
         int i=placedblocks;
-        return b.blocks[i][0]+","+b.blocks[i][1]+","+b.blocks[i][2]+","+b.blocks[i][3];
+        return b.blocks[i][0]+";"+b.blocks[i][1]+";"+b.blocks[i][2]+";"+b.blocks[i][3];
     }
     public void addblock(Blocks b) {
         b.blocks[placedblocks][0] = posX;
@@ -48,7 +49,7 @@ public class Block {
         render(g);
     }
     public void render(Graphics g) {
-            int X=(int)posX;int Y=(int)posY;
+            int X=(int)(posX-Editor.ScreenX);int Y=(int)posY;
             Double Type=blocktype;char SType=Type.toString().charAt(1);int PType=(int) Math.floor(Type/10);
             // System.out.println(PbT);
             switch (SType) { // Color
@@ -65,10 +66,10 @@ public class Block {
             }
             switch (PType) {
                 case 1:
-                    g.setColor(Color.white); g.drawRect((int)posX,(int)posY,Width,Height);
+                    g.setColor(Color.white); g.fillRect((int)posX,(int)posY,Width,Height);
                     break;
                 case 2:
-                    g.setColor(Color.red); g.drawPolygon(
+                    g.setColor(Color.red); g.fillPolygon(
                     new int[] {X, (int) X+Width, (int) (X+Width/2)}
                     ,new int[] {Y+Height, Y+Height, Y},3);
                     break;

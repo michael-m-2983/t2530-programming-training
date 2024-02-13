@@ -15,6 +15,7 @@ import java.io.FileNotFoundException;
 public class Editor extends JPanel implements ActionListener, KeyListener{
     public static final int WinWidth=750,WinHeight=500;
     public static boolean KeyPressed[] = new boolean[100];
+    public static double ScreenX = 0;
 
     private final Timer timer;
 
@@ -49,8 +50,9 @@ new Timer(1, this);
         // rendering
         // scores
         g.setColor(Color.white);
-        g.drawString("posY: "+block.posY, 12, 12);
-        g.drawString("BlockType: "+block.blocktype, 12, 24);
+        g.drawString("posX: "+block.posX, 12, 24);
+        g.drawString("posY: "+block.posY, 12, 36);
+        g.drawString("BlockType: "+block.blocktype, 12, 48);
 
         g.dispose();
     }
@@ -59,7 +61,7 @@ new Timer(1, this);
 
     @Override
         public void keyPressed(KeyEvent e) { // - - - - - - - - - - CONTROLS - - - - - - - - - - \\
-            switch(e.getKeyCode()) { // A~Z 65~
+            switch(e.getKeyCode()) { // A~Z 65~90 20~45
                 case 37: // Left Key
                     block.posX-=10;
                     KeyPressed[0] = true; break;
@@ -72,16 +74,27 @@ new Timer(1, this);
                 case 40: // Down Key
                     block.posY+=10;
                     KeyPressed[3] = true;break;
+                case 49: // 1
+                    ScreenX-=10;
+                    KeyPressed[11]=true;break;
+                case 51: // 3
+                    ScreenX+=10;
+                    KeyPressed[13]=true;break;
+
                 case 65: // A key
-                    KeyPressed[20] = true;break;
+                    KeyPressed[20]=true;break;
                 case 68: // D key
-                    KeyPressed[23] = true;break;
+                    KeyPressed[23]=true;break;
                 case 87: // W key
                     KeyPressed[42]=true;break;
                 case 90: // Z key
                     KeyPressed[45]=true;break;
                 case 67: // C key
                     KeyPressed[22]=true;break;
+                case 81: // Q key
+                    KeyPressed[31]=true;break;
+                case 69: // E key
+                    KeyPressed[24]=true;break;
                 default: // Everything else
                     break; 
             }
@@ -98,8 +111,12 @@ new Timer(1, this);
                     KeyPressed[2] = false;break;
                 case 40: // Down Key
                     KeyPressed[3] = false;break;
+                case 49: // 1
+                    KeyPressed[11]=false;break;
+                case 51: // 3
+                    KeyPressed[13]=false;break;
                 case 65: //A
-                    KeyPressed[20] = false;break;
+                    KeyPressed[20]=false;break;
                 case 68: //D
                     KeyPressed[23]=false;break;
                 case 87: //W
@@ -108,6 +125,10 @@ new Timer(1, this);
                     KeyPressed[45]=false;break;
                 case 67: // C
                     KeyPressed[22]=false;break;
+                case 81: // Q key
+                    KeyPressed[31]=false;break;
+                case 69: // E key
+                    KeyPressed[24]=false;break;
                 default: // Everything else
                     break; 
             }
