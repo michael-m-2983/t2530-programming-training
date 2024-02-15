@@ -2,6 +2,8 @@ package lveditor;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 // do not use arraylist, it is garbage
 import java.util.Arrays;
 
@@ -25,9 +27,12 @@ public class Blocks {
     }
     public void render(Graphics g, int i) {
         if (!(blocks[i][3]==0)) {
+            Graphics2D g2d = (Graphics2D)g;
             int bX=(int)(blocks[i][0] - Editor.ScreenX);int bY=(int)blocks[i][1];
             Double bT=blocks[i][3];char SbT=bT.toString().charAt(1);int PbT=(int) Math.floor(bT/10);
             // System.out.println(PbT);
+            AffineTransform old = g2d.getTransform();
+            g2d.rotate(Math.toRadians(blocks[i][2]),bX+Width/2,bY+Height/2);
             switch (SbT) { // Color
                 case '0':
                     g.setColor(Color.yellow);break;
@@ -57,6 +62,7 @@ public class Blocks {
                     break;
                 default:break;
             }
+            g2d.setTransform(old);
         }
     }
 }

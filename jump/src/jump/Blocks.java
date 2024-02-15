@@ -2,6 +2,8 @@ package jump;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -34,12 +36,14 @@ public class Blocks {
         if (!Game.debug) {System.exit(1);}
     }
     public void collision(double posX, double posY, double t, Player p) { // COLLISION - - - - - - - - - - - -
-        // quick player variables
+
         int blocktype = (int) Math.floor(t/10);
+        double[][] collpoints = new double[2][4];
+
         //     p.posX // Player left x
         //     p.posY // Player top Y
         double pbY = p.posY+Player.HEIGHT; // player bottom y
-        double prX = p.posX+Player.WIDTH; // player right x
+        double prX = p.posX+Player.WIDTH;  // player right x
 
         switch (blocktype) { // BLOCK COLLISION
             case 1:
@@ -49,8 +53,8 @@ public class Blocks {
 
                 if (prX > posX &&     // Is player right  X > left block collision
                     p.posX < brX &&   // Is player (left) x < right block collision
-                    pbY > posY+1 &&   // Is player bottom y > top block collision
-                    p.posY < bbY-1    // Is player (top)  y < bottom block collision
+                    pbY > posY &&   // Is player bottom y > top block collision
+                    p.posY < bbY      // Is player (top)  y < bottom block collision
                 ) { if ( // Checking Top/Bottom block collision
                         (p.gravity== 1 && p.posY < bbY-3 && p.posY > posY) || // Player Top Y > Block Top Y +5 (Gravity 1)
                         (p.gravity==-1 && pbY > posY+3 && pbY < bbY)          // Player Bottom Y > Block top Y+5 (Gravity -1)
@@ -59,7 +63,10 @@ public class Blocks {
                         p.posY > posY-5 && // Player Top Y >= Block Top Y - 5
                         p.posY < posY+5    // Player Top Y <= Block Top Y + 5
                     ) {die("S Col. Y: "+p.posY+" BY: "+posY);
-                } else {
+                } else if ( // 1 pixel lifesaver
+                    (p.gravity==-1 && pbY > posY+1) ||  // Is player bottom y > top block collision
+                    (p.gravity==1 && p.posY < bbY-1)    // Is player (top)  y < bottom block collision
+                ) {
                         p.velY = 0;
                         p.posY -= p.gravity; 
                         if (p.gravity==1){p.posY = posY-Player.HEIGHT;} else {p.posY=posY+Player.HEIGHT;}
@@ -71,7 +78,7 @@ public class Blocks {
             case 2:  // SPIKE COLLISION - - - -
                 // Player Y at ground is 430
                 // X, Y is Top Left
-
+                
                 double crx = posX+Width-7; // collision right x
                 double cby = posY+Height; // collision bottom y
                 if ( // CURRENTLY WORKING
@@ -109,7 +116,7 @@ public class Blocks {
                             break;
                         case 43:
                             p.gravity *= -1;
-                            p.velY = p.gravity*-5.5;
+                            p.velY = p.gravity*5.5;
                             break;
                         default:break;
                     }
@@ -168,6 +175,9 @@ public class Blocks {
                 int Pblockt = (int) Math.floor(blockt/10);
                 //System.out.println(subblockt);
 
+                Graphics2D g2d = (Graphics2D)g;
+                AffineTransform old = g2d.getTransform();
+                g2d.rotate(Math.toRadians(block[i][2]),blockx+10,blocky+10);
                 switch (Sblockt) { // Color
                     case '0': g.setColor(Color.yellow); break;
                     case '1': g.setColor(Color.pink); break;
@@ -188,14 +198,15 @@ public class Blocks {
                     case 4: // PAD drawing
                        g.fillArc(blockx, blocky+Height-(Height/4), Width, Height/2, 180, -180); break;
                     default:break;
-                }}
-
+                }
+                g2d.setTransform(old);
+            }
                 if (block[blocks-1][0] < -20) { // WINNING
                     System.out.println("- - - - - - - - - - - - - - - - -");
                     System.out.println("You made it to the end. Congrats.");
                     System.out.println("- - - - - - - - - - - - - - - - -");
-                    System.exit(1);
-            }
+                    System.exit(1);}
+                
         }
     }
 }

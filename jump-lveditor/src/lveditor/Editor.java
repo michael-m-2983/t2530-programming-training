@@ -5,7 +5,6 @@ import javax.swing.Timer;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.RenderingHints.Key;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -50,6 +49,7 @@ new Timer(1, this);
         // rendering
         // scores
         g.setColor(Color.white);
+        g.drawString("ScreenX: "+ScreenX, 12, 12);
         g.drawString("posX: "+block.posX, 12, 24);
         g.drawString("posY: "+block.posY, 12, 36);
         g.drawString("BlockType: "+block.blocktype, 12, 48);
@@ -85,15 +85,15 @@ new Timer(1, this);
                     KeyPressed[20]=true;break;
                 case 68: // D key
                     KeyPressed[23]=true;break;
-                case 87: // W key
-                    KeyPressed[42]=true;break;
-                case 90: // Z key
+                case 32: // Space key
+                    KeyPressed[4]=true;break;
+                case 90: // Z key SType
                     KeyPressed[45]=true;break;
-                case 67: // C key
+                case 67: // C key SType
                     KeyPressed[22]=true;break;
-                case 81: // Q key
+                case 81: // Q key Rotate
                     KeyPressed[31]=true;break;
-                case 69: // E key
+                case 69: // E key Rotate
                     KeyPressed[24]=true;break;
                 default: // Everything else
                     break; 
@@ -119,8 +119,8 @@ new Timer(1, this);
                     KeyPressed[20]=false;break;
                 case 68: //D
                     KeyPressed[23]=false;break;
-                case 87: //W
-                    KeyPressed[42]=false;break;
+                case 32: // Space key
+                    KeyPressed[4]=false;break;
                 case 90: //Z
                     KeyPressed[45]=false;break;
                 case 67: // C
