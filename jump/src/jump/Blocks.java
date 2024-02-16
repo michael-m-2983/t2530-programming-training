@@ -7,7 +7,7 @@ import java.awt.geom.AffineTransform;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-// do not use arraylist, it is garbage
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -38,7 +38,8 @@ public class Blocks {
     public void collision(double posX, double posY, double t, Player p) { // COLLISION - - - - - - - - - - - -
 
         int blocktype = (int) Math.floor(t/10);
-        double[][] collpoints = new double[2][4];
+        // Collision Points: ((x,y),(x2,y2))
+        double[][] cPoints = new double[2][2];
 
         //     p.posX // Player left x
         //     p.posY // Player top Y
@@ -79,13 +80,16 @@ public class Blocks {
                 // Player Y at ground is 430
                 // X, Y is Top Left
                 
-                double crx = posX+Width-7; // collision right x
-                double cby = posY+Height; // collision bottom y
+                double crX = posX+Width-7; // collision right x
+                double cbY = posY+Height; // collision bottom y
+
+                cPoints[0][0] = posX+7; cPoints[0][1] = cbY;
+                cPoints[1][0] = crX; cPoints[1][1] = posY+6;
                 if ( // CURRENTLY WORKING
-                    prX > posX+6 && // Is player right  X > left spike collision
-                    p.posX < crx && // Is player (left) x < right spike collision
+                    prX > posX+7 && // Is player right  X > left spike collision
+                    p.posX < crX && // Is player (left) x < right spike collision
                     pbY > posY+6 && // Is player bottom y > top spike collision
-                    p.posY < cby    // Is player (top)  y < bottom spike collision
+                    p.posY < cbY    // Is player (top)  y < bottom spike collision
                     ) {die("Spike Col.");}
                 break;
             case 3:  // ORB collision

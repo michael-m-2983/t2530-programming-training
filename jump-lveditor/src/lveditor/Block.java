@@ -10,8 +10,8 @@ public class Block {
     private static final int Width = 20, Height = 20;
     public double posX=0, posY=430, dir=0, blocktype=10;
 
-    public int placedblocks = 0;
-    public boolean[] keypressed = new boolean[100];
+    public static int placedblocks = 0;
+    private boolean[] keypressed = new boolean[100];
 
     public Block() {}
     public void PrintBlockArray(Blocks b) {

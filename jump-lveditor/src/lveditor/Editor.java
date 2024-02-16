@@ -16,6 +16,8 @@ public class Editor extends JPanel implements ActionListener, KeyListener{
     public static boolean KeyPressed[] = new boolean[100];
     public static double ScreenX = 0;
 
+    public static final boolean levelImport = true;
+
     private final Timer timer;
 
     private final Blocks blocks;
@@ -24,6 +26,13 @@ public class Editor extends JPanel implements ActionListener, KeyListener{
     public Editor() {
         this.blocks = new Blocks();
         this.block = new Block();
+
+        try {
+            blocks.importLvdata("levelimport.txt");
+            block.placedblocks=blocks.blockc;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 
         this.timer = new Timer(1, this);
         setFocusable(true);
@@ -50,9 +59,12 @@ new Timer(1, this);
         // scores
         g.setColor(Color.white);
         g.drawString("ScreenX: "+ScreenX, 12, 12);
-        g.drawString("posX: "+block.posX, 12, 24);
-        g.drawString("posY: "+block.posY, 12, 36);
+        g.drawString("Block X: "+block.posX, 12, 24);
+        g.drawString("Block Y: "+block.posY, 12, 36);
         g.drawString("BlockType: "+block.blocktype, 12, 48);
+        g.drawString("Block Rotation: "+block.dir, 12, 60);
+        g.drawString("Block Count: "+blocks.blockc, 12, 24);
+
 
         g.dispose();
     }

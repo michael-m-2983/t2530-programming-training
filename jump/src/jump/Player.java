@@ -29,7 +29,7 @@ public class Player {
                     velY = gravity*-6.7; break;
                 case 33: // CYAN
                     gravity*=-1;
-                    velY = gravity*5.5; break;
+                    velY = gravity*2; break;
                 default:break;
             }
             orbcooldown = true;
@@ -47,7 +47,7 @@ public class Player {
             orbcontact = 0;
         } else if ((posY-1 > Game.WinHeight-20) && gravity==1) { // if under the ground >431
             velY = 0;
-            posY -= gravity;
+            posY -= 1;
             posY = 430;
             jumpable = true;  
         }

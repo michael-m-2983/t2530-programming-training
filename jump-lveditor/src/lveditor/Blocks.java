@@ -4,13 +4,20 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
+import java.io.FileNotFoundException;
 // do not use arraylist, it is garbage
 import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+import java.io.File;
+import java.io.FileNotFoundException;
 
 public class Blocks {
     private static final int Width = 20, Height = 20;
+    public int blockc = 0;
 
-    public double blocks[][] = new double[100][4];
+    public double blocks[][] = new double[1000][4];
     // Blocks array
     // 0: posX, 1: posY, 2: dir, 3: type
     
@@ -19,11 +26,33 @@ public class Blocks {
 
     }
     public void actions(Graphics g) {
-        for (int i = 0; i < 100; i++) {
+        blockc = Block.placedblocks;
+        for (int i = 0; i < blockc+1; i++) {
             
             render(g, i);
         }
         
+    }
+    public void importLvdata(String file) throws FileNotFoundException { // This imports the level.txt file.
+        Scanner sc = new Scanner(new File(file)); // I use Scanner.
+        List<String> lines = new ArrayList<String>();
+        while (sc.hasNextLine()) {lines.add(sc.nextLine());}
+        String[] arr = lines.toArray(new String[0]); // The scanner output goes to String array arr[x][v]
+        // System.out.println(Arrays.deepToString(arr));
+        
+        
+        for (int t=0;t<arr.length;t++) {
+            String blockdata[] = arr[t].split(";",0);
+            blocks[blockc][0]=Double.parseDouble(blockdata[0]);
+            blocks[blockc][1]=Double.parseDouble(blockdata[1]);
+            blocks[blockc][2]=Double.parseDouble(blockdata[2]);
+            blocks[blockc][3]=Double.parseDouble(blockdata[3]);
+            System.out.println(Arrays.deepToString(blockdata));
+            blockc += 1;
+        }
+
+        // System.out.println(Arrays.deepToString(block));
+        System.out.println("Leveldata import complete with "+blockc+" blocks");
     }
     public void render(Graphics g, int i) {
         if (!(blocks[i][3]==0)) {
