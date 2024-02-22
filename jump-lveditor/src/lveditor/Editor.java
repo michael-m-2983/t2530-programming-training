@@ -16,7 +16,7 @@ public class Editor extends JPanel implements ActionListener, KeyListener{
     public static boolean KeyPressed[] = new boolean[100];
     public static double ScreenX = 0;
 
-    public static final boolean levelImport = true;
+    public static final boolean LevelImport = false;
 
     private final Timer timer;
 
@@ -27,11 +27,11 @@ public class Editor extends JPanel implements ActionListener, KeyListener{
         this.blocks = new Blocks();
         this.block = new Block();
 
-        try {
-            blocks.importLvdata("levelimport.txt");
-            block.placedblocks=blocks.blockc;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        if (LevelImport) {
+            try {
+                blocks.importLvdata("levelimport.txt");
+                Block.placedblocks=blocks.blockc;
+            } catch (FileNotFoundException e) {e.printStackTrace();}
         }
 
         this.timer = new Timer(1, this);

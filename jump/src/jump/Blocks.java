@@ -12,6 +12,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+import static java.lang.Math.PI;
+
 public class Blocks {
 
     private static final int Width = 20, Height = 20;
@@ -35,7 +37,7 @@ public class Blocks {
         System.out.println("- - - - - - - ");
         if (!Game.debug) {System.exit(1);}
     }
-    public void collision(double posX, double posY, double t, Player p) { // COLLISION - - - - - - - - - - - -
+    public void collision(double posX, double posY,double rot, double t, Player p) { // COLLISION - - - - - - - - - - - -
 
         int blocktype = (int) Math.floor(t/10);
         // Collision Points: ((x,y),(x2,y2))
@@ -82,9 +84,10 @@ public class Blocks {
                 
                 double crX = posX+Width-7; // collision right x
                 double cbY = posY+Height; // collision bottom y
-
+                
                 cPoints[0][0] = posX+7; cPoints[0][1] = cbY;
                 cPoints[1][0] = crX; cPoints[1][1] = posY+6;
+                double newpoints[][] = calculateRotation(cPoints, rot);
                 if ( // CURRENTLY WORKING
                     prX > posX+7 && // Is player right  X > left spike collision
                     p.posX < crX && // Is player (left) x < right spike collision
@@ -94,10 +97,10 @@ public class Blocks {
                 break;
             case 3:  // ORB collision
                 // A bigger hitbox is used
-                if (prX > posX-3 &&          // P RX > L col
-                    p.posX < posX+Width+3 && // P LX < R col
-                    pbY > posY-3 &&          // P BY > T col
-                    p.posY < posY+Height+3   // P TY < B col
+                if (prX > posX-5 &&          // P RX > L col
+                    p.posX < posX+Width+5 && // P LX < R col
+                    pbY > posY-5 &&          // P BY > T col
+                    p.posY < posY+Height+5   // P TY < B col
                 ) {p.orbcontact = (int)t;}
                 break;
             case 4: // PAD collision
@@ -120,7 +123,7 @@ public class Blocks {
                             break;
                         case 43:
                             p.gravity *= -1;
-                            p.velY = p.gravity*5.5;
+                            p.velY = p.gravity*2;
                             break;
                         default:break;
                     }
@@ -128,6 +131,18 @@ public class Blocks {
                 break;
             default:break;
         }
+    }
+    public double[][] calculateRotation(double[][] p, double ro) {
+        double offset = -((Math.atan(14/13) * (180/PI)) - 90); // 42.8789
+        double farradius = Math.sqrt(13^2 + 14^2);
+        double[][] output = new double[2][2];
+
+        output[0][0] = 7 * Math.sin((ro + 90) * (PI/180));
+        output[0][1] = 7 * Math.cos((ro + 90) * (PI/180));
+
+        output[1][0] = farradius * Math.sin((ro + offset) * (PI/180));
+        output[1][1] = farradius * Math.cos((ro + offset) * (PI/180));
+        return output;
     }
 
     public void generate() { // This generates a test-used pattern or something.
@@ -170,10 +185,11 @@ public class Blocks {
         System.out.println("Leveldata import complete with "+blocks+" blocks");
     }
     public void render(Graphics g, Player p) { // RENDERING - - - - - - - - - - - - - - - - - - - - - - - - -
-        for (int i = 0; i < blocks; i++) {
-            block[i][0] -= 2;
+        for (int i = 0; i < blocks; i++) { block[i][0] -= 2; // moving the block
             if (!(block[i][3] == 0) && block[i][0] < Game.WinWidth && block[i][0] > -40) {
-                this.collision(block[i][0], block[i][1], block[i][3], p); // Collision
+                if (block[i][0] < 200) {
+                    this.collision(block[i][0], block[i][1], block[i][2],block[i][3], p); // Collision
+                }
                 int blockx = (int) block[i][0]; int blocky = (int) block[i][1];
                 Double blockt = block[i][3]; char Sblockt = blockt.toString().charAt(1);
                 int Pblockt = (int) Math.floor(blockt/10);
@@ -194,7 +210,7 @@ public class Blocks {
                         g.setColor(Color.white); g.drawRect(blockx, blocky, Width, Height); break;
                     case 2: // SPIKE drawing
                         g.setColor(Color.red); g.drawPolygon(
-                            new int[] {blockx, (int) blockx+Width, (int) (blockx+Width/2)},
+                            new int[] {blockx, blockx+Width, blockx+Width/2},
                             new int[] {blocky+Height, blocky+Height, blocky},3);
                         break;
                     case 3: // ORB drawing
@@ -205,12 +221,11 @@ public class Blocks {
                 }
                 g2d.setTransform(old);
             }
-                if (block[blocks-1][0] < -20) { // WINNING
+        }
+        if (block[blocks-1][0] < -20) { // WINNING
                     System.out.println("- - - - - - - - - - - - - - - - -");
                     System.out.println("You made it to the end. Congrats.");
                     System.out.println("- - - - - - - - - - - - - - - - -");
                     System.exit(1);}
-                
-        }
     }
 }

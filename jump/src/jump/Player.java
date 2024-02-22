@@ -18,24 +18,27 @@ public class Player {
     public void jump() {
         if (orbcooldown && orbcontact==0) {
             orbcooldown = false;
-        } else if (!(orbcontact==0) && !orbcooldown) {
-            posY -= gravity;
-            switch (orbcontact) {
-                case 30: // YELLOW
-                    velY = gravity*-5; break;
-                case 31: // PINK
-                    velY = gravity*-3.4; break;
-                case 32: // RED
-                    velY = gravity*-6.7; break;
-                case 33: // CYAN
-                    gravity*=-1;
-                    velY = gravity*2; break;
-                default:break;
+        }
+        if (Game.JumpKeyDown) {
+            if (!(orbcontact==0) && !orbcooldown) {
+                posY -= gravity;
+                switch (orbcontact) {
+                    case 30: // YELLOW
+                        velY = gravity*-5; break;
+                    case 31: // PINK
+                        velY = gravity*-3.4; break;
+                    case 32: // RED
+                        velY = gravity*-6.7; break;
+                    case 33: // CYAN
+                        gravity*=-1;
+                        velY = gravity*3; break;
+                    default:break;
+                }
+                orbcooldown = true;
+            } else if (jumpable && orbcontact==0) {
+                posY -= gravity*2;
+                velY = gravity*-3.8;
             }
-            orbcooldown = true;
-        } else if (jumpable && orbcontact==0) {
-            posY -= gravity*2;
-            velY = gravity*-3.8;
         }
     
     }
@@ -53,7 +56,7 @@ public class Player {
         }
     }
     public void update () {
-        if (Game.upkeypressed) {this.jump();}
+        this.jump();
         this.gravity();
         posX += velX; posY += velY;
     }

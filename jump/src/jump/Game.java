@@ -16,12 +16,12 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 
     public static final int WINDOW_WIDTH = 750, WINDOW_HEIGHT = 500;
     public static final int WinWidth = 750, WinHeight = 450;
-    public static boolean upkeypressed;
+    public static boolean JumpKeyDown;
 
     public static final boolean useleveldata = true;
     public static final boolean debug = false;
 
-    public int score = 0;
+    public int Score = 0;
 
     private final Player player;
 
@@ -83,7 +83,7 @@ new Timer(1, this);
         // Draw Score
         g.setColor(Color.WHITE);
         g.drawString("Timer: " + timer.toString(), 12, 16);
-        g.drawString("Score: " + score, 12, 26);
+        g.drawString("Score: " + Score, 12, 26);
         g.drawString("player Y velocity: " + Math.floor(player.velY), 12, 36);
         g.drawString("Player Y: " + Math.floor(player.posY), 12, 46);
         g.drawString("blocks: " + blocks.blocks, 12, 56);
@@ -101,8 +101,8 @@ new Timer(1, this);
     public void keyPressed(KeyEvent e) { // - - - - - - - - - - CONTROLS - - - - - - - - - - \\
         // Left arrow: 37
         switch(e.getKeyCode()) {
-            case 38: // Up arrow
-                upkeypressed = true;
+            case 32: // Space bar
+                JumpKeyDown = true;
                 break;
             default: // Everything else
                 break; 
@@ -112,8 +112,8 @@ new Timer(1, this);
     @Override
     public void keyReleased(KeyEvent e) {
         switch(e.getKeyCode()) {
-            case 38: // Up arrow
-                upkeypressed = false;
+            case 32: // Space bar
+                JumpKeyDown = false;
                 break;
             default:
                 break;
@@ -121,11 +121,10 @@ new Timer(1, this);
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent e) { // timer thingy
         timer.start();
 
         repaint();
     }
-    
 }
 
