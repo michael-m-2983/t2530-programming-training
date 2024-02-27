@@ -16,7 +16,7 @@ public class Editor extends JPanel implements ActionListener, KeyListener{
     public static boolean KeyPressed[] = new boolean[100];
     public static double ScreenX = 0;
 
-    public static final boolean LevelImport = false;
+    public static final boolean LevelImport = true;
 
     private final Timer timer;
 

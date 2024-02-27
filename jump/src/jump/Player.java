@@ -9,22 +9,22 @@ public class Player {
     public int gravity = 1;
     public boolean jumpable;
     public int orbcontact;
-    private boolean orbcooldown;
+    private boolean keycooldown;
 
     public Player(double posX, double posY) {
         this.posX = posX;
         this.posY = posY;
     }
     public void jump() {
-        if (orbcooldown && orbcontact==0) {
-            orbcooldown = false;
+        if (keycooldown && orbcontact==0 && !Game.JumpKeyDown) {
+            keycooldown = false;
         }
         if (Game.JumpKeyDown) {
-            if (!(orbcontact==0) && !orbcooldown) {
+            if (!(orbcontact==0) && !keycooldown) {
                 posY -= gravity;
                 switch (orbcontact) {
                     case 30: // YELLOW
-                        velY = gravity*-5; break;
+                        velY = gravity*-4.1; break;
                     case 31: // PINK
                         velY = gravity*-3.4; break;
                     case 32: // RED
@@ -34,10 +34,11 @@ public class Player {
                         velY = gravity*3; break;
                     default:break;
                 }
-                orbcooldown = true;
-            } else if (jumpable && orbcontact==0) {
+                keycooldown = true;
+            } else if (jumpable) {
                 posY -= gravity*2;
                 velY = gravity*-3.8;
+                keycooldown = true;
             }
         }
     
