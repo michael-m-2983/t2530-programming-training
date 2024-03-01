@@ -1,3 +1,30 @@
+# It is me, I, who have created this monstrosity known to nobody ever
+<!-- Where shallnt no human will go without the knowledge of few has to known -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # t2530-programming-training
 Repository dedicated to Team 2530 members programming training.
 

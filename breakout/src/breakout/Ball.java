@@ -10,8 +10,8 @@ public class Ball {
     public static final int RADIUS = 10;
 
     public Ball(double posX, double posY) {
-        this.posX = posX;
-        this.posY = posY;
+        this.posX = posX; // 325
+        this.posY = posY; // 450
     }
 
     public void render(Graphics g, Player player) {
@@ -29,21 +29,26 @@ public class Ball {
 
     private void checkCollisions(Player player) {
         // Top, left and right walls
-        if (posX <= 0 || posX >= Game.WINDOW_WIDTH) {
+        if (posX <= 0 || posX >= Game.WINDOW_WIDTH - 30) {
             velX = -velX;
         }
         if (posY <= 0) {
             velY = -velY;
         }
 
-        // Player
-        if (posX > player.posX && posX < player.posX + Player.WIDTH && posY >= player.posY) {
-            velY = -velY;
-            velX += (Math.random() - 0.5);
+        // Player collision
+        if (
+            posX > player.posX && // bx > playerx(325 if middle)
+            posX < player.posX + Player.WIDTH && // bx < 325(playerx) + 100(playerwidth)
+            posY >= player.posY - RADIUS && // by >= 450(playery) - ball radius (10 default)
+            posY < player.posY + Player.HEIGHT // by < 450 + 10(height)
+            ) {
+            velY *= -1 - Math.random() / 10;
+            velX += Math.random() / 10;
         }
 
         // Ground
-        if (posY >= Game.WINDOW_HEIGHT + 50) {
+        if (posY >= Game.WINDOW_HEIGHT) {
             System.out.println("Game over, you lose!");
             System.exit(0);
         }
