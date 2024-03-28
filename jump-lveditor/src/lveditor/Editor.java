@@ -63,7 +63,7 @@ new Timer(1, this);
         g.drawString("Block Y: "+block.posY, 12, 36);
         g.drawString("BlockType: "+block.blocktype, 12, 48);
         g.drawString("Block Rotation: "+block.dir, 12, 60);
-        g.drawString("Block Count: "+blocks.blockc, 12, 24);
+        g.drawString("Block Count: "+blocks.blockc, 12, 72);
 
 
         g.dispose();

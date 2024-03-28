@@ -87,7 +87,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         g.drawString("player Y velocity: " + Math.floor(player.velY), 12, 36);
         g.drawString("Player Y: " + Math.floor(player.posY), 12, 46);
         g.drawString("blocks: " + blocks.blocks, 12, 56);
-        g.drawString("lastblockx: " + blocks.block[blocks.blocks-1][0], 12, 66);
+        g.drawString("lastblockx: " + blocks.block[blocks.lastblock][0], 12, 66);
         g.dispose();
 
         

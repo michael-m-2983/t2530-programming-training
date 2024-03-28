@@ -24,6 +24,7 @@ public class Blocks {
     // BLOCK: 2
     public double block[][] = new double[1000][4];
     public int blocks = 0;
+    public int lastblock = 0;
     public double defY;
 
     public Blocks(int defY) { // setup and nothing
@@ -180,15 +181,18 @@ public class Blocks {
         while (sc.hasNextLine()) {lines.add(sc.nextLine());}
         String[] arr = lines.toArray(new String[0]); // The scanner output goes to String array arr[x][v]
         // System.out.println(Arrays.deepToString(arr));
-        
-        
+
+        String[] blockdata;
         for (int t=0;t<arr.length;t++) {
-            String blockdata[] = arr[t].split(";",0);
-            block[blocks][0]=Double.parseDouble(blockdata[0])+400;
-            block[blocks][1]=Double.parseDouble(blockdata[1]);
-            block[blocks][2]=Double.parseDouble(blockdata[2]);
-            block[blocks][3]=Double.parseDouble(blockdata[3]);
+            blockdata = arr[t].split(";",0);
+            block[blocks][0] = Double.parseDouble(blockdata[0])+400;
+            block[blocks][1] = Double.parseDouble(blockdata[1]);
+            block[blocks][2] = Double.parseDouble(blockdata[2]);
+            block[blocks][3] = Double.parseDouble(blockdata[3]);
             System.out.println(Arrays.deepToString(blockdata));
+
+            if (block[blocks][0] > block[lastblock][0]) {lastblock = blocks;}
+
             blocks += 1;
         }
 
@@ -233,7 +237,7 @@ public class Blocks {
                 g2d.setTransform(old);
             }
         }
-        if (block[blocks-1][0] < -20) { // WINNING
+        if (block[lastblock][0] < -20) { // WINNING
                     System.out.println("- - - - - - - - - - - - - - - - -");
                     System.out.println("You made it to the end. Congrats.");
                     System.out.println("- - - - - - - - - - - - - - - - -");
