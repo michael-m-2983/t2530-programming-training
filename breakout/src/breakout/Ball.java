@@ -23,7 +23,7 @@ public class Ball {
         checkCollisions(player);
 
         // Render
-        g.setColor(Color.WHITE);
+        g.setColor(Color.CYAN);
         g.fillOval((int) posX, (int) posY, RADIUS, RADIUS);
     }
 

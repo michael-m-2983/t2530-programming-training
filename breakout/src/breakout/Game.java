@@ -49,7 +49,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         board.checkCollisions((int) ball.posX, (int) ball.posY, Ball.RADIUS, ball);
 
         // Draw background
-        g.setColor(Color.BLACK);
+        g.setColor(Color.WHITE);
         g.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
         // Draw Bricks

@@ -32,10 +32,10 @@ public class Board {
     }
 
     public void renderBrick(int x, int y, Brick brick, Graphics g) {
-        g.setColor(Color.GRAY);
+        g.setColor(y % 2 == (System.currentTimeMillis() % 2 == 0 ? 0 : 1) ? Color.BLACK : Color.GREEN);
         g.fillRect((WIDTH / cols) * x, (HEIGHT / rows) * y, WIDTH / cols, HEIGHT / rows); 
 
-        g.setColor(Color.BLACK);
+        g.setColor(Color.LIGHT_GRAY);
         g.drawRect((WIDTH / cols) * x, (HEIGHT / rows) * y, WIDTH / cols, HEIGHT / rows);
     }
 
