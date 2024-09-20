@@ -18,37 +18,38 @@ public class Block {
         for (int i=0;!(b.blocks[i][3]==0);i++) {
             System.out.println("("+b.blocks[i][0]+","+b.blocks[i][1]+","+b.blocks[i][2]+","+b.blocks[i][3]+")");}
     }
-    public String LastBInArray(Blocks b) {
+    public String LastBInArray(Blocks blocks) {
         int i=placedblocks;
-        return b.blocks[i][0]+";"+b.blocks[i][1]+";"+b.blocks[i][2]+";"+b.blocks[i][3];
+        return blocks.blocks[i][0]+";"+blocks.blocks[i][1]+";"+blocks.blocks[i][2]+";"+blocks.blocks[i][3];
     }
-    public void addblock(Blocks b) {
-        b.blocks[placedblocks][0] = posX+Editor.ScreenX;
-        b.blocks[placedblocks][1] = posY;
-        b.blocks[placedblocks][2] = dir;
-        b.blocks[placedblocks][3] = blocktype;
-        System.out.println(LastBInArray(b));
+    public void addblock(Blocks blocks) {
+        blocks.blocks[placedblocks][0] = posX+Editor.ScreenX;
+        blocks.blocks[placedblocks][1] = posY;
+        blocks.blocks[placedblocks][2] = dir;
+        blocks.blocks[placedblocks][3] = blocktype;
+        System.out.println(LastBInArray(blocks));
         placedblocks+=1;
     }
-    public void actions(Blocks b, Graphics g) {
+    public void actions(Blocks blocks, Graphics g) {
         int KeyActionKeys[] = {4, 20, 23, 45, 22,31,24};
         for (int i=0;i<KeyActionKeys.length;i++) {
             int actionkeyN = KeyActionKeys[i];
             if (Editor.KeyPressed[actionkeyN] && !keypressed[actionkeyN]) {
                 switch (actionkeyN) {
-                    case 4: addblock(b);    break; // Space
+                    case 4: addblock(blocks);    break; // Space
                     case 20: blocktype-=10; break; // A
                     case 23: blocktype+=10; break; // D
                     case 45: blocktype -=1; break; // Z
                     case 22: blocktype +=1; break; // C
-                    case 31: dir-=90; break; // Q
-                    case 24: dir+=90; break; // E
+                    case 31: dir-=90; if (dir==-90) {dir=270;} break; // Q
+                    case 24: dir+=90; if (dir==360) {dir=0;} break; // E
                     
                     default:break;
                 }
                 keypressed[actionkeyN]=true;
             } else if (!Editor.KeyPressed[actionkeyN]) {keypressed[actionkeyN]=false;}}
         if(blocktype<10){blocktype=90;} if(blocktype>99){blocktype=10;}
+        if (dir<=-90) {dir=270;} if (dir>=360) {dir=0;}
         if(posY>430){posY=430;}
 
         render(g);

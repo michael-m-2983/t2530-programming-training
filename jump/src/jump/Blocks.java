@@ -15,7 +15,7 @@ import static java.lang.Math.PI;
 
 public class Blocks {
 
-    private static final int Width = 20, Height = 20;
+    public final int Width = 20, Height = 20;
 
     // Blocks 2D Array
     // the internal array settings: posX, posY, type
@@ -30,14 +30,67 @@ public class Blocks {
     public Blocks(int defY) { // setup and nothing
         this.defY = defY; // 450
     }
-    public void die(String errmsg) {
-        System.out.println("- - - - - - - ");
-        System.out.println(" > you died < "); // DEATH
-        System.out.println(errmsg);
-        System.out.println("- - - - - - - ");
-        if (!Game.debug) {System.exit(1);}
+
+    public class Block {
+        double x, y, r, t, w=20, h=20;
+        public Block(double ix, double iy, double ir, double it) {
+            this.x=ix; this.y=iy; this.r=ir; this.t=it;
+        }
+        public double[] data() {
+            return new double[] {x,y,r,t};
+        }
+        public double[] obj() {
+            return new double[] {x,y,Width,Height};
+        }
+        
     }
-    public void collision(double posX, double posY,double rot, double t, Player p) { // COLLISION - - - - - - - - - - - -
+    public void die(String errmsg) {
+        if (Game.play) {
+            System.out.println(" - - - - - - - ");
+            System.out.println(" > you  died < "); // DEATH
+            System.out.println(errmsg);
+            System.out.println(" - - - - - - - ");
+            Game.play = false;
+            //if (!Game.debug) {System.exit(1);}
+        }
+    }
+    public boolean checkCol(double[] o1, double[] o2) {
+        //     O1 Left < O2 Right   O2 Left < O1 Right       O1 Top < O2 Bottom     O2 Top < O1 Bottom
+        return o1[0] < o2[0]+o2[2] && o2[0] < o1[0]+o1[2] && o1[1] < o2[1]+o2[3] && o2[1] < o1[1]+o1[3];
+    }
+    public void ncollision(Block b, Player p) {
+        // Left Top is the main point
+
+        double[] pObj = {p.posX,p.posY,p.sizeW,p.sizeH};
+        switch ((int) Math.floor(b.t/10)) {
+            case 1: // BLOCK
+                if (checkCol(b.obj(), pObj)) { // Contact
+                    if ( // Top
+                        (p.gravity==1  && p.posY < b.y+b.h-3         // Plr Top < Block Bottom -3
+                                       && p.posY > b.y) ||           //  Plr Top > Block Top
+                        (p.gravity==-1 && p.posY+p.sizeH > b.y+b.h+3 // Plr Bottom > Block Top +3
+                                       && p.posY+p.sizeH < b.y+b.h)  // Plr Bottom < Block Bottom
+                    ) {die("T/B Col. Y:"+p.posY+" BY:"+b.y);
+                    } else if ( // Side (Tolerance (Lower = more): 5)
+                        p.posY+p.sizeH > b.y+5 && // Player Bottom > Block Top + 5
+                        p.posY < b.y+b.h-5 // Player Top < Block Bottom - 5
+                    ) {die("Side Col. PY:"+p.posY+" BY:"+b.y);
+                    } else if (// 1 Pixel Lifesaver?
+                        true
+                    ) {
+                        p.velY = 0;
+                        p.posY -= p.gravity; 
+                        if (p.gravity==1){p.posY = b.y-p.sizeH;} else {p.posY=b.y+p.sizeW;}
+                        p.jumpable = true;
+                    }
+                }
+                break;
+            case 2: // SPIKE
+                break;
+            default: break;
+        }
+    }
+    public void collision(double posX, double posY, double rot, double t, Player p) { // COLLISION - - - - - - - - - - - -
 
         int blocktype = (int) Math.floor(t/10);
         // Collision Points: ((x,y),(x2,y2))
@@ -45,8 +98,8 @@ public class Blocks {
 
         //     p.posX // Player left x
         //     p.posY // Player top Y
-        double pbY = p.posY+Player.HEIGHT; // player bottom y
-        double prX = p.posX+Player.WIDTH;  // player right x
+        double pbY = p.posY+p.sizeH; // player bottom y
+        double prX = p.posX+p.sizeW;  // player right x
 
         switch (blocktype) { // BLOCK COLLISION
             case 1:
@@ -72,7 +125,7 @@ public class Blocks {
                 ) {
                         p.velY = 0;
                         p.posY -= p.gravity; 
-                        if (p.gravity==1){p.posY = posY-Player.HEIGHT;} else {p.posY=posY+Player.HEIGHT;}
+                        if (p.gravity==1){p.posY = posY-p.sizeH;} else {p.posY=posY+p.sizeW;}
                         p.jumpable = true;
                         // System.out.println("block.collision:inblock");
                     }
@@ -189,7 +242,7 @@ public class Blocks {
             block[blocks][1] = Double.parseDouble(blockdata[1]);
             block[blocks][2] = Double.parseDouble(blockdata[2]);
             block[blocks][3] = Double.parseDouble(blockdata[3]);
-            System.out.println(Arrays.deepToString(blockdata));
+            //System.out.println(Arrays.deepToString(blockdata));
 
             if (block[blocks][0] > block[lastblock][0]) {lastblock = blocks;}
 
@@ -200,10 +253,14 @@ public class Blocks {
         System.out.println("Leveldata import complete with "+blocks+" blocks");
     }
     public void render(Graphics g, Player p) { // RENDERING - - - - - - - - - - - - - - - - - - - - - - - - -
-        for (int i = 0; i < blocks; i++) { block[i][0] -= 2; // moving the block
-            if (!(block[i][3] == 0) && block[i][0] < Game.WinWidth && block[i][0] > -40) {
-                if (block[i][0] < 200) { // only if the object is close to the player
-                    this.collision(block[i][0], block[i][1], block[i][2],block[i][3], p); // Collision
+        for (int i = 0; i < blocks; i++) { if (Game.play) {block[i][0] -= 2;} // moving the block
+            if (!(block[i][3] == 0) && block[i][0] < Game.WinWidth && block[i][0] > -40) { // Invis block, blocks outside the window
+                if (block[i][0] < p.posX+60 && block[i][0] > p.posX-60) { // only if the object is close to the player
+                    //this.collision(block[i][0], block[i][1], block[i][2],block[i][3], p); // Collision
+                    //this.collision()
+                    this.ncollision(
+                        new Block (block[i][0],block[i][1],block[i][2],block[i][3]),
+                        p);
                 }
                 int blockx = (int) block[i][0]; int blocky = (int) block[i][1]; // rendering setup
                 Double blockt = block[i][3]; char Sblockt = blockt.toString().charAt(1);

@@ -1,4 +1,4 @@
-package lveditor;
+package lve;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -10,6 +10,10 @@ import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import lve.Block;
+import lve.Editor;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 
@@ -25,7 +29,7 @@ public class Blocks {
     public Blocks() {
 
     }
-    public void actions(Graphics g) {
+    public void periodic(Graphics g) {
         blockc = Block.placedblocks;
         for (int i = 0; i < blockc+1; i++) {
             

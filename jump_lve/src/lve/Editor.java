@@ -1,7 +1,10 @@
-package lveditor;
+package lve;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
+
+import lve.Block;
+import lve.Blocks;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -52,7 +55,7 @@ new Timer(1, this);
         g.setColor(Color.white); g.drawRect(-1, WinHeight-50, WinWidth, 15);
 
         // Running code
-        block.actions(blocks,g);
+        block.actions(blocks, g);
         blocks.actions(g);
 
         // rendering

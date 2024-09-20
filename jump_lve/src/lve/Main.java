@@ -1,8 +1,8 @@
-package lveditor;
+package lve;
 
 import javax.swing.JFrame;
 
-import lveditor.Editor;
+import lve.Editor;
 
 public class Main {
     public static void main(String[] args) {

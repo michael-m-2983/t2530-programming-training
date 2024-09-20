@@ -18,10 +18,10 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     public static final int WinWidth = 750, WinHeight = 450;
     public static boolean JumpKeyDown;
 
-    public static final boolean useleveldata = true;
+    public static final boolean useleveldata = true; // DEBUG LVDATA OFF / ON SWITCH
     public static final boolean debug = false;
 
-    public int Score = 0;
+    public static boolean play = true;
 
     private final Player player;
 
@@ -82,12 +82,13 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 
         // Draw Score
         g.setColor(Color.WHITE);
-        g.drawString("Timer: " + timer.toString(), 12, 16);
-        g.drawString("Score: " + Score, 12, 26);
-        g.drawString("player Y velocity: " + Math.floor(player.velY), 12, 36);
-        g.drawString("Player Y: " + Math.floor(player.posY), 12, 46);
-        g.drawString("blocks: " + blocks.blocks, 12, 56);
-        g.drawString("lastblockx: " + blocks.block[blocks.lastblock][0], 12, 66);
+        String[] write = {
+            "Timer: " + timer.toString(),
+            "Player Y: " + Math.floor(player.posY),
+            "Blocks: " + blocks.blocks,
+            "lastblockx: " + blocks.block[blocks.lastblock][0]
+        };
+        for (int i=0;i<write.length;i++) {g.drawString(write[i],12,16+i*10);}
         g.dispose();
 
         

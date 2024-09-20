@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class Player {
-    public static final double WIDTH = 20, HEIGHT = 20;
+    public final double sizeW = 20, sizeH = 20;
     public double posX, posY; public double velX, velY;
     public int gravity = 1;
     public boolean jumpable;
@@ -57,10 +57,12 @@ public class Player {
         }
     }
     public void update () {
-        this.jump();
-        this.gravity();
-        posX += velX; posY += velY;
+        if (Game.play) {
+            this.jump();
+            this.gravity();
+            posX += velX; posY += velY;
+        }
     }
     public void render(Graphics g) {
-        g.setColor(Color.GREEN); g.fillRect((int) this.posX, (int) this.posY, (int) WIDTH, (int) HEIGHT);
+        g.setColor(Color.GREEN); g.fillRect((int) this.posX, (int) this.posY, (int) sizeW, (int) sizeH);
     }}
