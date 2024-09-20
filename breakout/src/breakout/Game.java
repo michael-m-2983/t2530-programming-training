@@ -46,7 +46,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     public void paint(Graphics g) {
 
         // Check collision between ball and bricks
-        board.checkCollisions((int) ball.posX, (int) ball.posY, Ball.RADIUS);
+        board.checkCollisions((int) ball.posX, (int) ball.posY, Ball.RADIUS, ball);
 
         // Draw background
         g.setColor(Color.BLACK);

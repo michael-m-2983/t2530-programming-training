@@ -39,7 +39,7 @@ public class Board {
         g.drawRect((WIDTH / cols) * x, (HEIGHT / rows) * y, WIDTH / cols, HEIGHT / rows);
     }
 
-    public void checkCollisions(int x, int y, int radius) {
+    public void checkCollisions(int x, int y, int radius, Ball ball) {
         final int width = (WIDTH / cols);
         final int height = (HEIGHT / rows);
 
@@ -48,7 +48,12 @@ public class Board {
         for(int x1 = 0; x1 < rows; x1++) {
             for(int y1 = 0; y1 < cols; y1++) {
                 if(x + halfRadius > (x1 * width) && x - halfRadius < (x1 + 1) * width && y + halfRadius > y1 * height && y - halfRadius < (y1 + 1) * height) {
-                    bricks[x1][y1] = null;
+                    if(bricks[x1][y1] != null) {
+                        ball.velX = -ball.velX;
+                        ball.velY = -ball.velY;
+                        bricks[x1][y1] = null;
+                        return;
+                    }
                 }
             }
         }
