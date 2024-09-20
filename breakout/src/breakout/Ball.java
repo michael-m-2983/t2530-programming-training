@@ -7,7 +7,7 @@ public class Ball {
     public double posX, posY;
     public double velX, velY;
 
-    public static final int RADIUS = 10;
+    public static final int RADIUS = 20;
 
     public Ball(double posX, double posY) {
         this.posX = posX;
