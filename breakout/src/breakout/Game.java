@@ -30,7 +30,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         this.player = new Player(WINDOW_WIDTH / 2 - Player.WIDTH / 2, WINDOW_HEIGHT - Player.HEIGHT * 5);
 
         this.ball = new Ball(WINDOW_WIDTH / 2, WINDOW_HEIGHT - Player.HEIGHT * 8);
-        this.ball.velY = -0.2;
+        this.ball.velY = -0.6;
 
         this.board = new Board(10, 10);
 

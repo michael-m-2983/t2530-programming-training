@@ -39,7 +39,7 @@ public class Ball {
         // Player
         if (posX > player.posX && posX < player.posX + Player.WIDTH && posY >= player.posY) {
             velY = -velY;
-            velX += (Math.random() - 0.5);
+            velX += Math.min(0.25, 0.02 * velX) * (2 * (Math.random() - 0.5));
         }
 
         // Ground

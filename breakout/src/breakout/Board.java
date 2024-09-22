@@ -49,8 +49,8 @@ public class Board {
             for(int y1 = 0; y1 < cols; y1++) {
                 if(x + halfRadius > (x1 * width) && x - halfRadius < (x1 + 1) * width && y + halfRadius > y1 * height && y - halfRadius < (y1 + 1) * height) {
                     if(bricks[x1][y1] != null) {
-                        ball.velX = -ball.velX;
-                        ball.velY = -ball.velY;
+                        ball.velX = -ball.velX + 0.25 * (Math.random() - 0.5);
+                        ball.velY = -ball.velY + 0.25 * (Math.random() - 0.5);
                         bricks[x1][y1] = null;
                         return;
                     }
