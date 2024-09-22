@@ -1,14 +1,21 @@
 package breakout;
 
+import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.ImageObserver;
+import java.awt.image.ImageProducer;
+import java.io.File;
+import java.io.IOException;
 
 public class Game extends JPanel implements ActionListener, KeyListener {
 
@@ -24,9 +31,11 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 
     private final Timer timer;
 
+    private final Image backgroundImage;
+
     // TODO: bricks
 
-    public Game() {
+    public Game() throws IOException {
         this.player = new Player(WINDOW_WIDTH / 2 - Player.WIDTH / 2, WINDOW_HEIGHT - Player.HEIGHT * 5);
 
         this.ball = new Ball(WINDOW_WIDTH / 2, WINDOW_HEIGHT - Player.HEIGHT * 8);
@@ -36,6 +45,8 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 
         this.timer = new Timer(1, this);
         this.timer.start();
+
+        this.backgroundImage = ImageIO.read(new File("background.png"));
 
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
@@ -51,7 +62,8 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         // Draw background
         g.setColor(Color.WHITE);
         g.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
-
+        g.drawImage(this.backgroundImage, 0, 0, null);
+        
         // Draw Bricks
         board.render(g);
 
