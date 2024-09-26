@@ -41,7 +41,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         this.ball.velY = -1.5;
         this.ball.velX = -0.25;
 
-        this.board = new Board(10, 10);
+        this.board = new Board(8, 10);
 
         this.timer = new Timer(1, this);
         this.timer.start();
@@ -53,16 +53,12 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 
     @Override
     public void paint(Graphics g) {
-
-        // Check collision between ball and bricks
-        board.checkCollisions((int) ball.posX, (int) ball.posY, Ball.RADIUS, ball, this);
-
         // Draw background
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
-        // Draw Bricks
-        board.render(g);
+        // Brick
+        board.periodic(g, ball);
 
         // Draw Player
         player.render(g);
@@ -75,8 +71,6 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         g.drawString("Score: " + score, 12, 16);
         g.drawString("BX: " + Math.round(ball.posX), 12, 30);
         g.drawString("BY: " + Math.round(ball.posY), 12, 42);
-        g.drawString("Width of brick: " + board.getWidth(), 12, 54);
-        g.drawString("Height of brick: " + board.getHeight(), 12, 66);
         g.drawString("Ycontacts: " + this.Ycontacts, 12, 78);
         g.dispose();
     }

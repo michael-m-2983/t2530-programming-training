@@ -6,8 +6,9 @@ import java.awt.Graphics;
 public class Ball {
     public double posX, posY;
     public double velX, velY;
+    public int contactrefresh = 0;
 
-    public static final int RADIUS = 10;
+    public static final int radius = 10;
 
     public Ball(double posX, double posY) {
         this.posX = posX; // 325
@@ -20,11 +21,15 @@ public class Ball {
         this.posY += this.velY;
 
         // Collisions
+        if (contactrefresh > 0) {
+            contactrefresh -= 1;
+            System.out.println(contactrefresh);
+        }
         checkCollisions(player);
 
         // Render
         g.setColor(Color.WHITE);
-        g.fillOval((int) posX, (int) posY, RADIUS, RADIUS);
+        g.fillOval((int) posX, (int) posY, radius, radius);
     }
 
     private void checkCollisions(Player player) {
@@ -40,7 +45,7 @@ public class Ball {
         if (
             posX > player.posX && // bx > playerx(325 if middle)
             posX < player.posX + Player.WIDTH && // bx < 325(playerx) + 100(playerwidth)
-            posY >= player.posY - RADIUS && // by >= 450(playery) - ball radius (10 default)
+            posY >= player.posY - radius && // by >= 450(playery) - ball radius (10 default)
             posY < player.posY + Player.HEIGHT // by < 450 + 10(height)
             ) {
             velY *= -1 - Math.random() / 10;
